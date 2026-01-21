@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import StockChart from "./StockChart";
 import FinancialTerm from "./FinancialTerm";
@@ -169,7 +169,7 @@ export default function MarketDashboard() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedIndex, setSelectedIndex] = useState<string | null>(null);
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
 
   const fetchMarketData = useCallback(async () => {
     try {
@@ -320,222 +320,216 @@ export default function MarketDashboard() {
           };
           const isUp = index.change >= 0;
           const mood = getMoodEmoji(index.changePercent);
-          const isSelected = selectedIndex === index.symbol;
+          const isSelected = selectedCard === i;
 
           return (
-            <motion.div
-              key={index.symbol}
-              custom={i}
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-              whileTap="tap"
-              onClick={() => setSelectedIndex(isSelected ? null : index.symbol)}
-              className={`
-                relative overflow-hidden cursor-pointer
-                bg-white/70 backdrop-blur-sm rounded-[24px] p-6
-                border-3 transition-colors duration-300
-                ${isSelected
-                  ? `border-[var(--${meta.color})] shadow-xl`
-                  : 'border-transparent shadow-[var(--shadow-soft)]'
-                }
-              `}
-            >
-              {/* Sparkles for good days */}
-              <Sparkles isActive={isUp && index.changePercent > 0.5} />
-
-              {/* Decorative background gradient */}
+            <React.Fragment key={index.symbol}>
               <motion.div
-                className="absolute inset-0 opacity-10 pointer-events-none"
-                animate={{
-                  background: [
-                    `radial-gradient(circle at 80% 20%, var(--${meta.color}) 0%, transparent 50%)`,
-                    `radial-gradient(circle at 20% 80%, var(--${meta.color}) 0%, transparent 50%)`,
-                    `radial-gradient(circle at 80% 20%, var(--${meta.color}) 0%, transparent 50%)`,
-                  ],
-                }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              />
-
-              {/* Top row: emoji and mood */}
-              <div className="flex justify-between items-start mb-3 relative z-10">
-                <motion.span
-                  variants={emojiVariants}
-                  initial="initial"
-                  animate="animate"
-                  className="text-5xl"
-                >
-                  {meta.emoji}
-                </motion.span>
-                <motion.div
-                  key={mood.emoji + index.changePercent}
-                  variants={moodVariants}
-                  initial="initial"
-                  animate={["animate", "bounce"]}
-                  className="flex flex-col items-end"
-                >
-                  <span className="text-4xl">{mood.emoji}</span>
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                    className="text-xs text-[var(--text-muted)] mt-1 font-medium"
-                  >
-                    {mood.label}
-                  </motion.span>
-                </motion.div>
-              </div>
-
-              {/* Index name and full name */}
-              <div className="mb-3 relative z-10">
-                <motion.h3
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 + 0.2 }}
-                  className="font-display text-2xl font-bold text-[var(--text-primary)]"
-                >
-                  {index.name}
-                </motion.h3>
-                <p className="text-xs text-[var(--text-muted)]">{index.fullName}</p>
-              </div>
-
-              {/* Value display */}
-              <div className="relative z-10">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={index.price}
-                    variants={numberVariants}
-                    initial="initial"
-                    animate="update"
-                    className="font-display text-4xl font-bold text-[var(--text-primary)] mb-2"
-                  >
-                    {formatNumber(index.price)}
-                  </motion.div>
-                </AnimatePresence>
-
-                <div className="flex items-center gap-3 mb-4">
-                  <motion.div
-                    key={index.change}
-                    initial={{ scale: 0, rotate: -20 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className={`
-                      flex items-center gap-1 px-4 py-1.5 rounded-full text-sm font-bold
-                      ${isUp
-                        ? 'bg-[var(--up-green-bg)] text-[var(--up-green)]'
-                        : 'bg-[var(--down-red-bg)] text-[var(--down-red)]'
-                      }
-                    `}
-                  >
-                    <motion.span
-                      animate={isUp ? { y: [0, -3, 0] } : { y: [0, 3, 0] }}
-                      transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 1 }}
-                      className="text-lg"
-                    >
-                      {isUp ? "↑" : "↓"}
-                    </motion.span>
-                    <span>{isUp ? "+" : ""}{formatNumber(index.change)}</span>
-                  </motion.div>
-
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className={`text-sm font-bold ${isUp ? 'text-[var(--up-green)]' : 'text-[var(--down-red)]'}`}
-                  >
-                    ({isUp ? "+" : ""}{index.changePercent?.toFixed(2) || "0.00"}%)
-                  </motion.span>
-                </div>
-
-                {/* Mini Chart */}
-                <div className="h-[80px] -mx-2">
-                  <StockChart
-                    symbol={index.symbol}
-                    range="1d"
-                    height={80}
-                    showControls={false}
-                    isPositive={isUp}
-                    compact={true}
-                  />
-                </div>
-              </div>
-
-              {/* Expanded content */}
-              <AnimatePresence>
-                {isSelected && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="overflow-hidden relative z-10"
-                  >
-                    <div className="mt-4 pt-4 border-t border-[var(--cream-dark)]">
-                      <motion.p
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-[var(--text-secondary)] text-sm leading-relaxed mb-4"
-                      >
-                        <span className="font-semibold text-[var(--text-primary)]">What is this? </span>
-                        {meta.description}
-                      </motion.p>
-
-                      {/* Today's stats */}
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        {[
-                          { label: "Today's Range", term: "day range", value: `${formatNumber(index.dayLow)} - ${formatNumber(index.dayHigh)}` },
-                          { label: "Volume", term: "volume", value: formatVolume(index.volume) },
-                          { label: "Open", term: "open", value: formatNumber(index.open) },
-                          { label: "Prev Close", term: "previous close", value: formatNumber(index.previousClose) },
-                        ].map((stat, statIndex) => (
-                          <motion.div
-                            key={stat.term}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 + statIndex * 0.05 }}
-                            whileHover={{ scale: 1.05 }}
-                            className="bg-white/50 rounded-xl p-3"
-                          >
-                            <div className="text-[var(--text-muted)] text-xs">
-                              <FinancialTerm term={stat.term}>{stat.label}</FinancialTerm>
-                            </div>
-                            <div className="font-semibold text-[var(--text-primary)]">
-                              {stat.value}
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-
-                      {/* Full chart */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="mt-4"
-                      >
-                        <StockChart
-                          symbol={index.symbol}
-                          range="1d"
-                          height={200}
-                          showControls={true}
-                          isPositive={isUp}
-                        />
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Click hint with bounce */}
-              <motion.div
-                animate={{ y: [0, -3, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-                className="absolute bottom-2 right-4 text-xs text-[var(--text-muted)] opacity-70 z-10 font-medium"
+                custom={i}
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover="hover"
+                whileTap="tap"
+                onClick={() => setSelectedCard(isSelected ? null : i)}
+                className={`
+                  relative overflow-hidden cursor-pointer
+                  bg-white/70 backdrop-blur-sm rounded-[24px] p-6
+                  border-3 transition-colors duration-300
+                  ${isSelected
+                    ? `border-[var(--${meta.color})] shadow-xl`
+                    : 'border-transparent shadow-[var(--shadow-soft)]'
+                  }
+                `}
               >
-                {isSelected ? "Tap to close ↑" : "Tap to explore! 👆"}
+                {/* Sparkles for good days */}
+                <Sparkles isActive={isUp && index.changePercent > 0.5} />
+
+                {/* Decorative background gradient */}
+                <motion.div
+                  className="absolute inset-0 opacity-10 pointer-events-none"
+                  animate={{
+                    background: [
+                      `radial-gradient(circle at 80% 20%, var(--${meta.color}) 0%, transparent 50%)`,
+                      `radial-gradient(circle at 20% 80%, var(--${meta.color}) 0%, transparent 50%)`,
+                      `radial-gradient(circle at 80% 20%, var(--${meta.color}) 0%, transparent 50%)`,
+                    ],
+                  }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                />
+
+                {/* Top row: emoji and mood */}
+                <div className="flex justify-between items-start mb-3 relative z-10">
+                  <motion.span
+                    variants={emojiVariants}
+                    initial="initial"
+                    animate="animate"
+                    className="text-5xl"
+                  >
+                    {meta.emoji}
+                  </motion.span>
+                  <motion.div
+                    key={mood.emoji + index.changePercent}
+                    variants={moodVariants}
+                    initial="initial"
+                    animate={["animate", "bounce"]}
+                    className="flex flex-col items-end"
+                  >
+                    <span className="text-4xl">{mood.emoji}</span>
+                    <motion.span
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-xs text-[var(--text-muted)] mt-1 font-medium"
+                    >
+                      {mood.label}
+                    </motion.span>
+                  </motion.div>
+                </div>
+
+                {/* Index name and full name */}
+                <div className="mb-3 relative z-10">
+                  <motion.h3
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 + 0.2 }}
+                    className="font-display text-2xl font-bold text-[var(--text-primary)]"
+                  >
+                    {index.name}
+                  </motion.h3>
+                  <p className="text-xs text-[var(--text-muted)]">{index.fullName}</p>
+                </div>
+
+                {/* Value display */}
+                <div className="relative z-10">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={index.price}
+                      variants={numberVariants}
+                      initial="initial"
+                      animate="update"
+                      className="font-display text-4xl font-bold text-[var(--text-primary)] mb-2"
+                    >
+                      {formatNumber(index.price)}
+                    </motion.div>
+                  </AnimatePresence>
+
+                  <div className="flex items-center gap-3">
+                    <motion.div
+                      key={index.change}
+                      initial={{ scale: 0, rotate: -20 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className={`
+                        flex items-center gap-1 px-4 py-1.5 rounded-full text-sm font-bold
+                        ${isUp
+                          ? 'bg-[var(--up-green-bg)] text-[var(--up-green)]'
+                          : 'bg-[var(--down-red-bg)] text-[var(--down-red)]'
+                        }
+                      `}
+                    >
+                      <motion.span
+                        animate={isUp ? { y: [0, -3, 0] } : { y: [0, 3, 0] }}
+                        transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 1 }}
+                        className="text-lg"
+                      >
+                        {isUp ? "↑" : "↓"}
+                      </motion.span>
+                      <span>{isUp ? "+" : ""}{formatNumber(index.change)}</span>
+                    </motion.div>
+
+                    <motion.span
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className={`text-sm font-bold ${isUp ? 'text-[var(--up-green)]' : 'text-[var(--down-red)]'}`}
+                    >
+                      ({isUp ? "+" : ""}{index.changePercent?.toFixed(2) || "0.00"}%)
+                    </motion.span>
+                  </div>
+                </div>
+
+                {/* Click hint */}
+                <motion.div
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                  className="absolute bottom-2 right-4 text-xs text-[var(--text-muted)] opacity-70 z-10 font-medium"
+                >
+                  {isSelected ? "Selected ✓" : "Tap to explore! 👆"}
+                </motion.div>
               </motion.div>
-            </motion.div>
+
+              {/* Detail Panel - appears right after the selected card */}
+              {isSelected && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="col-span-1 md:col-span-3 bg-white/80 backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)]"
+                >
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                      <span className="text-4xl">{meta.emoji}</span>
+                      <div>
+                        <h3 className="font-display text-2xl font-bold text-[var(--text-primary)]">
+                          {index.name}
+                        </h3>
+                        <p className="text-sm text-[var(--text-muted)]">{index.fullName}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedCard(null);
+                      }}
+                      className="w-10 h-10 flex items-center justify-center rounded-full bg-[var(--cream)] hover:bg-[var(--cream-dark)] transition-colors"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                        <path d="M4 4l8 8M12 4l-8 8" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-[var(--text-secondary)] leading-relaxed mb-6">
+                    <span className="font-semibold text-[var(--text-primary)]">What is this? </span>
+                    {meta.description}
+                  </p>
+
+                  {/* Stats grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    {[
+                      { label: "Today's Range", term: "day range", value: `${formatNumber(index.dayLow)} - ${formatNumber(index.dayHigh)}` },
+                      { label: "Volume", term: "volume", value: formatVolume(index.volume) },
+                      { label: "Open", term: "open", value: formatNumber(index.open) },
+                      { label: "Prev Close", term: "previous close", value: formatNumber(index.previousClose) },
+                    ].map((stat) => (
+                      <div
+                        key={stat.term}
+                        className="bg-[var(--cream)]/50 rounded-xl p-4"
+                      >
+                        <div className="text-[var(--text-muted)] text-xs mb-1">
+                          <FinancialTerm term={stat.term}>{stat.label}</FinancialTerm>
+                        </div>
+                        <div className="font-semibold text-[var(--text-primary)]">
+                          {stat.value}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Chart */}
+                  <div>
+                    <StockChart
+                      symbol={index.symbol}
+                      range="1d"
+                      height={250}
+                      showControls={true}
+                      isPositive={isUp}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </React.Fragment>
           );
         })}
       </div>
