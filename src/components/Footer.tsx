@@ -42,9 +42,6 @@ export default function Footer() {
             <a href="#learn" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
               Search
             </a>
-            <a href="#glossary" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-              Glossary
-            </a>
             <a href="#" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
               About
             </a>
@@ -53,23 +50,6 @@ export default function Footer() {
             </a>
           </motion.div>
         </div>
-
-        {/* Disclaimer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="py-6 border-t border-[var(--cream-dark)] border-b mb-6"
-        >
-          <div className="flex items-start gap-3 max-w-3xl mx-auto">
-            <span className="text-2xl flex-shrink-0">📚</span>
-            <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-              <strong className="text-[var(--text-secondary)]">Learning purposes only:</strong> This website is for educational purposes and helps explain financial concepts in simple terms.
-              The stock prices and data shown are simulated for learning. This is not financial advice - always talk to a grown-up or financial expert before making real money decisions!
-            </p>
-          </div>
-        </motion.div>
 
         {/* Bottom section */}
         <motion.div

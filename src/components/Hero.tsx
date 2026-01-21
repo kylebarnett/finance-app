@@ -43,19 +43,6 @@ export default function Hero() {
 
       {/* Main content */}
       <div className="relative z-10 text-center">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm rounded-full shadow-sm mb-6"
-        >
-          <span className="text-lg">🎓</span>
-          <span className="text-sm font-medium text-[var(--text-secondary)]">
-            Learning finance made fun!
-          </span>
-        </motion.div>
-
         {/* Main headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}

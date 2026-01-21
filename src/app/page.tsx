@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import MarketDashboard from "@/components/MarketDashboard";
 import CompanySearch from "@/components/CompanySearch";
-import Glossary from "@/components/Glossary";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -14,18 +13,21 @@ export default function Home() {
       {/* Hero Section */}
       <Hero />
 
-      {/* Live Market Dashboard */}
-      <section id="markets" className="scroll-mt-8">
-        <MarketDashboard />
-      </section>
-
-      {/* Company Search Section */}
+      {/* Search & Markets Section - Combined flow */}
       <section id="learn" className="scroll-mt-8">
+        {/* Company Search first */}
         <CompanySearch />
-      </section>
 
-      {/* Glossary Section */}
-      <Glossary />
+        {/* Divider */}
+        <div className="w-full max-w-6xl mx-auto px-4">
+          <div className="border-t border-[var(--cream-dark)]" />
+        </div>
+
+        {/* Market Dashboard below */}
+        <div id="markets" className="scroll-mt-8">
+          <MarketDashboard />
+        </div>
+      </section>
 
       {/* Footer */}
       <Footer />
