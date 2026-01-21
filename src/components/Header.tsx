@@ -21,7 +21,7 @@ export default function Header() {
           </motion.div>
           <div>
             <h1 className="font-display text-xl font-bold text-[var(--text-primary)]">
-              Money Made Simple
+              Flynn
             </h1>
             <p className="text-xs text-[var(--text-muted)]">Finance for everyone</p>
           </div>

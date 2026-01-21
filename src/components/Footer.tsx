@@ -22,7 +22,7 @@ export default function Footer() {
             </div>
             <div>
               <h3 className="font-display text-lg font-bold text-[var(--text-primary)]">
-                Money Made Simple
+                Flynn
               </h3>
               <p className="text-xs text-[var(--text-muted)]">Making finance fun for everyone</p>
             </div>
@@ -59,7 +59,7 @@ export default function Footer() {
           transition={{ delay: 0.3 }}
           className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[var(--text-muted)]"
         >
-          <p>&copy; {currentYear} Money Made Simple. Made with 💖 for curious minds.</p>
+          <p>&copy; {currentYear} Flynn. Made with 💖 for curious minds.</p>
 
           <div className="flex items-center gap-4">
             <a href="#" className="hover:text-[var(--text-secondary)] transition-colors">Privacy</a>
