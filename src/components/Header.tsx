@@ -59,18 +59,24 @@ export default function Header() {
           animate={{ opacity: 1, x: 0 }}
           className="hidden sm:flex items-center gap-1 p-1.5 bg-white/60 backdrop-blur-sm rounded-full shadow-sm border border-white/50"
         >
-          <a
-            href="#markets"
+          <Link
+            href="/"
+            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
+          >
+            Home
+          </Link>
+          <Link
+            href="/#markets"
             className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
           >
             Markets
-          </a>
-          <a
-            href="#learn"
+          </Link>
+          <Link
+            href="/#learn"
             className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
           >
             Search
-          </a>
+          </Link>
 
           {!isLoading && (
             <>

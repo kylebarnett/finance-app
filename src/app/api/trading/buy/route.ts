@@ -40,18 +40,33 @@ export async function POST(request: NextRequest) {
 
     const upperSymbol = symbol.toUpperCase();
 
-    // Get user's paper account
-    const { data: paperAccount, error: accountError } = await supabase
+    // Get or create user's paper account
+    let { data: paperAccount } = await supabase
       .from("paper_accounts")
       .select("*")
       .eq("user_id", user.id)
       .single();
 
-    if (accountError || !paperAccount) {
-      return NextResponse.json(
-        { success: false, error: "Paper account not found" },
-        { status: 404 }
-      );
+    // Create paper account if it doesn't exist
+    if (!paperAccount) {
+      const { data: newAccount, error: createError } = await supabase
+        .from("paper_accounts")
+        .insert({
+          user_id: user.id,
+          starting_cash: 10000,
+          current_cash: 10000,
+        })
+        .select()
+        .single();
+
+      if (createError || !newAccount) {
+        console.error("Paper account creation error:", createError);
+        return NextResponse.json(
+          { success: false, error: "Failed to create paper account" },
+          { status: 500 }
+        );
+      }
+      paperAccount = newAccount;
     }
 
     const account = paperAccount as PaperAccount;

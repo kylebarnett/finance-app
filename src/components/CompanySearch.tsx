@@ -607,7 +607,7 @@ export default function CompanySearch() {
             </motion.div>
 
             {/* Buy Section - Only show if user is logged in */}
-            {user && paperAccount && (
+            {user && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -621,10 +621,12 @@ export default function CompanySearch() {
                   Practice buying {stockData.name} stock with your virtual money! Remember, this is just for practice - no real money involved.
                 </p>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                  <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
-                    <span>💵</span>
-                    <span>You have <strong className="text-[var(--text-primary)]">{formatCurrency(paperAccount.current_cash)}</strong> to invest</span>
-                  </div>
+                  {paperAccount && (
+                    <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
+                      <span>💵</span>
+                      <span>You have <strong className="text-[var(--text-primary)]">{formatCurrency(paperAccount.current_cash)}</strong> to invest</span>
+                    </div>
+                  )}
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
