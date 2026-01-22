@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import StockChart from "./StockChart";
 import FinancialTerm from "./FinancialTerm";
@@ -170,6 +170,24 @@ export default function MarketDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Close detail panel when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (gridRef.current && !gridRef.current.contains(event.target as Node)) {
+        setSelectedCard(null);
+      }
+    };
+
+    if (selectedCard !== null) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [selectedCard]);
 
   const fetchMarketData = useCallback(async () => {
     try {
@@ -311,7 +329,7 @@ export default function MarketDashboard() {
       </motion.div>
 
       {/* Market Index Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {indices.map((index, i) => {
           const meta = indexMeta[index.symbol] || {
             emoji: "📈",

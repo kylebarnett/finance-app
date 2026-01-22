@@ -121,9 +121,10 @@ export default function Header() {
                               📊 My Portfolio
                             </Link>
                             <button
-                              onClick={() => {
-                                signOut();
+                              onClick={async () => {
+                                await signOut();
                                 setShowDropdown(false);
+                                window.location.href = "/";
                               }}
                               className="w-full text-left px-3 py-2 rounded-xl text-sm text-[var(--down-red)] hover:bg-[var(--down-red-bg)] transition-colors"
                             >

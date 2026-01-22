@@ -68,8 +68,8 @@ export default function SignupPage() {
           console.error("Profile update error:", profileError);
         }
 
-        // Force a full page refresh to pick up new auth state
-        window.location.href = "/";
+        // Redirect to email verification page
+        window.location.href = "/auth/verify-email";
       }
     } catch (err) {
       setError("Something went wrong. Please try again.");
