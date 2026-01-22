@@ -16,11 +16,8 @@ export async function GET() {
     const quotes = await yahooFinance.quote(symbols);
 
     const marketData = INDICES.map((index) => {
-      const quote = Array.isArray(quotes)
-        ? quotes.find((q) => q.symbol === index.symbol)
-        : quotes.symbol === index.symbol
-          ? quotes
-          : null;
+      const quotesArray = Array.isArray(quotes) ? quotes : [quotes];
+      const quote = quotesArray.find((q) => q?.symbol === index.symbol);
 
       if (!quote) {
         return {

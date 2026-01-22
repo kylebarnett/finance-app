@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import StockChart from "./StockChart";
 import FinancialTerm from "./FinancialTerm";
+import TradingModal from "./trading/TradingModal";
+import { useAuth } from "./auth/AuthProvider";
 
 interface StockData {
   symbol: string;
@@ -97,6 +99,7 @@ function formatVolume(num: number): string {
 }
 
 export default function CompanySearch() {
+  const { user, paperAccount, refreshProfile } = useAuth();
   const [query, setQuery] = useState("");
   const [stockData, setStockData] = useState<StockData | null>(null);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
@@ -104,6 +107,7 @@ export default function CompanySearch() {
   const [isSearching, setIsSearching] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showTradingModal, setShowTradingModal] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
   const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -601,9 +605,58 @@ export default function CompanySearch() {
                 </p>
               </div>
             </motion.div>
+
+            {/* Buy Section - Only show if user is logged in */}
+            {user && paperAccount && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="mt-6 p-6 bg-gradient-to-r from-[var(--teal-light)]/30 to-[var(--mint-light)]/30 rounded-[24px] border-2 border-[var(--teal)]/20"
+              >
+                <h4 className="font-display text-xl font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+                  <span>🛒</span> Ready to Invest?
+                </h4>
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Practice buying {stockData.name} stock with your virtual money! Remember, this is just for practice - no real money involved.
+                </p>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                  <div className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
+                    <span>💵</span>
+                    <span>You have <strong className="text-[var(--text-primary)]">{formatCurrency(paperAccount.current_cash)}</strong> to invest</span>
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setShowTradingModal(true)}
+                    className="px-8 py-4 bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)] text-white font-display font-semibold rounded-[14px] shadow-lg hover:shadow-xl transition-all"
+                  >
+                    Buy {stockData.symbol}
+                  </motion.button>
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Trading Modal */}
+      {stockData && (
+        <TradingModal
+          isOpen={showTradingModal}
+          onClose={() => setShowTradingModal(false)}
+          mode="buy"
+          symbol={stockData.symbol}
+          companyName={stockData.name}
+          currentPrice={stockData.price}
+          emoji={stockData.emoji}
+          cashBalance={paperAccount?.current_cash}
+          onSuccess={() => {
+            refreshProfile();
+            setShowTradingModal(false);
+          }}
+        />
+      )}
 
     </section>
   );

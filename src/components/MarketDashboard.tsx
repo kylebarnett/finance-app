@@ -83,7 +83,7 @@ const cardVariants = {
     rotate: 0,
     transition: {
       delay: i * 0.15,
-      type: "spring",
+      type: "spring" as const,
       stiffness: 200,
       damping: 15,
     },
@@ -92,8 +92,8 @@ const cardVariants = {
     scale: 1.03,
     rotate: [0, -1, 1, -1, 0],
     transition: {
-      rotate: { duration: 0.5, ease: "easeInOut" },
-      scale: { type: "spring", stiffness: 400 },
+      rotate: { duration: 0.5, ease: "easeInOut" as const },
+      scale: { type: "spring" as const, stiffness: 400 },
     },
   },
   tap: { scale: 0.97 },
@@ -112,7 +112,7 @@ const numberVariants = {
   initial: { scale: 1 },
   update: {
     scale: [1, 1.15, 1],
-    transition: { duration: 0.3, ease: "easeOut" },
+    transition: { duration: 0.3, ease: "easeOut" as const },
   },
 };
 
@@ -121,7 +121,7 @@ const moodVariants = {
   animate: {
     scale: 1,
     rotate: 0,
-    transition: { type: "spring", stiffness: 300, damping: 15 },
+    transition: { type: "spring" as const, stiffness: 300, damping: 15 },
   },
   bounce: {
     y: [0, -10, 0],
