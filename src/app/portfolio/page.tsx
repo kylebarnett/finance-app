@@ -9,6 +9,7 @@ import PortfolioSummary from "@/components/trading/PortfolioSummary";
 import HoldingsList from "@/components/trading/HoldingsList";
 import TransactionHistory from "@/components/trading/TransactionHistory";
 import TradingModal from "@/components/trading/TradingModal";
+import QuickStockSearch from "@/components/trading/QuickStockSearch";
 import { useAuth } from "@/components/auth/AuthProvider";
 
 interface Holding {
@@ -47,6 +48,15 @@ interface PortfolioData {
   holdings: Holding[];
 }
 
+interface StockData {
+  symbol: string;
+  name: string;
+  price: number;
+  change: number;
+  changePercent: number;
+  emoji: string;
+}
+
 type TabType = "holdings" | "history";
 
 export default function PortfolioPage() {
@@ -63,6 +73,10 @@ export default function PortfolioPage() {
     isOpen: boolean;
     holding: Holding | null;
   }>({ isOpen: false, holding: null });
+  const [buyModal, setBuyModal] = useState<{
+    isOpen: boolean;
+    stock: StockData | null;
+  }>({ isOpen: false, stock: null });
 
   const fetchPortfolio = useCallback(async () => {
     try {
@@ -127,6 +141,10 @@ export default function PortfolioPage() {
 
   const handleSell = (holding: Holding) => {
     setSellModal({ isOpen: true, holding });
+  };
+
+  const handleSelectStock = (stock: StockData) => {
+    setBuyModal({ isOpen: true, stock });
   };
 
   const handleTradeSuccess = () => {
@@ -231,6 +249,22 @@ export default function PortfolioPage() {
           isLoading={isLoadingPortfolio}
         />
 
+        {/* Quick Stock Search */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mb-8"
+        >
+          <h3 className="font-display text-lg font-semibold text-[var(--text-primary)] mb-3 flex items-center gap-2">
+            <span>🛒</span> Buy More Stocks
+          </h3>
+          <QuickStockSearch
+            onSelectStock={handleSelectStock}
+            cashBalance={portfolioData?.summary.cashBalance}
+          />
+        </motion.div>
+
         {/* Tab Navigation */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -286,8 +320,8 @@ export default function PortfolioPage() {
           )}
         </motion.div>
 
-        {/* Quick action */}
-        {!isLoadingPortfolio && portfolioData && (
+        {/* Quick action - show only when no holdings */}
+        {!isLoadingPortfolio && portfolioData && portfolioData.holdings.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -295,7 +329,7 @@ export default function PortfolioPage() {
             className="mt-12 text-center"
           >
             <p className="text-[var(--text-muted)] mb-4">
-              Ready to grow your portfolio?
+              Want to explore companies first?
             </p>
             <Link href="/#learn">
               <motion.button
@@ -303,7 +337,7 @@ export default function PortfolioPage() {
                 whileTap={{ scale: 0.95 }}
                 className="px-8 py-4 bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)] text-white font-display font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
               >
-                Search for Stocks 🔍
+                Learn About Companies 🔍
               </motion.button>
             </Link>
           </motion.div>
@@ -323,6 +357,21 @@ export default function PortfolioPage() {
           currentPrice={sellModal.holding.currentPrice}
           emoji={sellModal.holding.emoji}
           maxQuantity={sellModal.holding.quantity}
+          onSuccess={handleTradeSuccess}
+        />
+      )}
+
+      {/* Buy Modal */}
+      {buyModal.stock && (
+        <TradingModal
+          isOpen={buyModal.isOpen}
+          onClose={() => setBuyModal({ isOpen: false, stock: null })}
+          mode="buy"
+          symbol={buyModal.stock.symbol}
+          companyName={buyModal.stock.name}
+          currentPrice={buyModal.stock.price}
+          emoji={buyModal.stock.emoji}
+          cashBalance={portfolioData?.summary.cashBalance}
           onSuccess={handleTradeSuccess}
         />
       )}

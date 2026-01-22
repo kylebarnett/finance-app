@@ -16,6 +16,8 @@ interface TradingModalProps {
   onSuccess: () => void;
 }
 
+type InputMode = "shares" | "dollars";
+
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -37,20 +39,29 @@ export default function TradingModal({
   cashBalance,
   onSuccess,
 }: TradingModalProps) {
+  const [inputMode, setInputMode] = useState<InputMode>("shares");
   const [quantity, setQuantity] = useState(1);
+  const [dollarAmount, setDollarAmount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
   const isBuy = mode === "buy";
-  const totalAmount = quantity * currentPrice;
   const maxAffordable = cashBalance ? Math.floor(cashBalance / currentPrice) : Infinity;
   const maxAllowed = isBuy ? maxAffordable : (maxQuantity || 0);
+
+  // Calculate values based on input mode
+  const calculatedQuantity = inputMode === "shares"
+    ? quantity
+    : Math.floor((parseFloat(dollarAmount) || 0) / currentPrice);
+  const totalAmount = calculatedQuantity * currentPrice;
 
   // Reset state when modal opens/closes
   useEffect(() => {
     if (isOpen) {
+      setInputMode("shares");
       setQuantity(1);
+      setDollarAmount("");
       setError("");
       setSuccessMessage("");
     }
@@ -63,7 +74,25 @@ export default function TradingModal({
     setError("");
   };
 
+  const handleDollarChange = (value: string) => {
+    // Allow only numbers and one decimal point
+    const sanitized = value.replace(/[^0-9.]/g, '');
+    // Prevent multiple decimal points
+    const parts = sanitized.split('.');
+    if (parts.length > 2) return;
+    // Limit to 2 decimal places
+    if (parts[1] && parts[1].length > 2) return;
+
+    setDollarAmount(sanitized);
+    setError("");
+  };
+
   const handleSubmit = async () => {
+    if (calculatedQuantity < 1) {
+      setError("Please enter a valid amount");
+      return;
+    }
+
     setIsLoading(true);
     setError("");
 
@@ -72,7 +101,7 @@ export default function TradingModal({
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ symbol, quantity }),
+        body: JSON.stringify({ symbol, quantity: calculatedQuantity }),
       });
 
       const result = await response.json();
@@ -94,7 +123,10 @@ export default function TradingModal({
     }
   };
 
-  const quickPicks = [1, 5, 10, 25].filter(n => n <= maxAllowed);
+  const quickPicksShares = [1, 5, 10, 25].filter(n => n <= maxAllowed);
+  const quickPicksDollars = isBuy
+    ? [10, 25, 50, 100].filter(n => cashBalance === undefined || n <= cashBalance)
+    : [10, 25, 50, 100].filter(n => maxQuantity === undefined || n <= (maxQuantity * currentPrice));
 
   return (
     <AnimatePresence>
@@ -179,67 +211,157 @@ export default function TradingModal({
                       </motion.div>
                     )}
 
-                    {/* Quantity selector */}
-                    <div className="mb-6">
-                      <label className="block text-sm font-semibold text-[var(--text-primary)] mb-3">
-                        How many shares?
-                      </label>
-                      <div className="flex items-center justify-center gap-4">
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                          onClick={() => handleQuantityChange(quantity - 1)}
-                          disabled={quantity <= 1}
-                          className="w-12 h-12 flex items-center justify-center rounded-full bg-[var(--cream)] text-[var(--text-primary)] text-2xl font-bold hover:bg-[var(--cream-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                          -
-                        </motion.button>
-                        <motion.div
-                          key={quantity}
-                          initial={{ scale: 1.2 }}
-                          animate={{ scale: 1 }}
-                          className="w-24 h-16 flex items-center justify-center bg-[var(--cream)] rounded-2xl"
-                        >
-                          <span className="font-display text-3xl font-bold text-[var(--text-primary)]">
-                            {quantity}
-                          </span>
-                        </motion.div>
-                        <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
-                          onClick={() => handleQuantityChange(quantity + 1)}
-                          disabled={quantity >= maxAllowed}
-                          className="w-12 h-12 flex items-center justify-center rounded-full bg-[var(--cream)] text-[var(--text-primary)] text-2xl font-bold hover:bg-[var(--cream-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                        >
-                          +
-                        </motion.button>
-                      </div>
-                    </div>
-
-                    {/* Quick picks */}
-                    {quickPicks.length > 1 && (
-                      <div className="mb-6">
-                        <p className="text-xs text-[var(--text-muted)] mb-2 text-center">Quick pick</p>
-                        <div className="flex justify-center gap-2">
-                          {quickPicks.map(n => (
-                            <motion.button
-                              key={n}
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                              onClick={() => handleQuantityChange(n)}
-                              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
-                                quantity === n
-                                  ? isBuy
-                                    ? "bg-[var(--teal)] text-white"
-                                    : "bg-[var(--coral)] text-white"
-                                  : "bg-[var(--cream)] text-[var(--text-secondary)] hover:bg-[var(--cream-dark)]"
-                              }`}
-                            >
-                              {n}
-                            </motion.button>
-                          ))}
+                    {/* Input Mode Toggle - Only show for buy mode */}
+                    {isBuy && (
+                      <div className="mb-4">
+                        <div className="flex bg-[var(--cream)] rounded-xl p-1">
+                          <button
+                            onClick={() => setInputMode("shares")}
+                            className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-all ${
+                              inputMode === "shares"
+                                ? "bg-white text-[var(--text-primary)] shadow-sm"
+                                : "text-[var(--text-muted)]"
+                            }`}
+                          >
+                            By Shares
+                          </button>
+                          <button
+                            onClick={() => setInputMode("dollars")}
+                            className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-all ${
+                              inputMode === "dollars"
+                                ? "bg-white text-[var(--text-primary)] shadow-sm"
+                                : "text-[var(--text-muted)]"
+                            }`}
+                          >
+                            By Dollars
+                          </button>
                         </div>
                       </div>
+                    )}
+
+                    {/* Shares Input Mode */}
+                    {inputMode === "shares" && (
+                      <>
+                        <div className="mb-6">
+                          <label className="block text-sm font-semibold text-[var(--text-primary)] mb-3">
+                            How many shares?
+                          </label>
+                          <div className="flex items-center justify-center gap-4">
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={() => handleQuantityChange(quantity - 1)}
+                              disabled={quantity <= 1}
+                              className="w-12 h-12 flex items-center justify-center rounded-full bg-[var(--cream)] text-[var(--text-primary)] text-2xl font-bold hover:bg-[var(--cream-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
+                              -
+                            </motion.button>
+                            <motion.div
+                              key={quantity}
+                              initial={{ scale: 1.2 }}
+                              animate={{ scale: 1 }}
+                              className="w-24 h-16 flex items-center justify-center bg-[var(--cream)] rounded-2xl"
+                            >
+                              <span className="font-display text-3xl font-bold text-[var(--text-primary)]">
+                                {quantity}
+                              </span>
+                            </motion.div>
+                            <motion.button
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              onClick={() => handleQuantityChange(quantity + 1)}
+                              disabled={quantity >= maxAllowed}
+                              className="w-12 h-12 flex items-center justify-center rounded-full bg-[var(--cream)] text-[var(--text-primary)] text-2xl font-bold hover:bg-[var(--cream-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            >
+                              +
+                            </motion.button>
+                          </div>
+                        </div>
+
+                        {/* Quick picks for shares */}
+                        {quickPicksShares.length > 1 && (
+                          <div className="mb-6">
+                            <p className="text-xs text-[var(--text-muted)] mb-2 text-center">Quick pick</p>
+                            <div className="flex justify-center gap-2">
+                              {quickPicksShares.map(n => (
+                                <motion.button
+                                  key={n}
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => handleQuantityChange(n)}
+                                  className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                                    quantity === n
+                                      ? isBuy
+                                        ? "bg-[var(--teal)] text-white"
+                                        : "bg-[var(--coral)] text-white"
+                                      : "bg-[var(--cream)] text-[var(--text-secondary)] hover:bg-[var(--cream-dark)]"
+                                  }`}
+                                >
+                                  {n}
+                                </motion.button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+
+                    {/* Dollars Input Mode */}
+                    {inputMode === "dollars" && (
+                      <>
+                        <div className="mb-6">
+                          <label className="block text-sm font-semibold text-[var(--text-primary)] mb-3">
+                            How much do you want to invest?
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl text-[var(--text-muted)]">
+                              $
+                            </span>
+                            <input
+                              type="text"
+                              inputMode="decimal"
+                              value={dollarAmount}
+                              onChange={(e) => handleDollarChange(e.target.value)}
+                              placeholder="0.00"
+                              className="w-full h-16 pl-10 pr-4 text-center font-display text-3xl font-bold text-[var(--text-primary)] bg-[var(--cream)] rounded-2xl focus:outline-none focus:ring-2 focus:ring-[var(--teal)] placeholder:text-[var(--text-muted)]/50"
+                            />
+                          </div>
+                          {calculatedQuantity > 0 && (
+                            <p className="text-center text-sm text-[var(--text-muted)] mt-2">
+                              = {calculatedQuantity} share{calculatedQuantity !== 1 ? "s" : ""}
+                            </p>
+                          )}
+                          {parseFloat(dollarAmount) > 0 && calculatedQuantity === 0 && (
+                            <p className="text-center text-sm text-[var(--coral)] mt-2">
+                              Not enough to buy 1 share (min: {formatCurrency(currentPrice)})
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Quick picks for dollars */}
+                        {quickPicksDollars.length > 0 && (
+                          <div className="mb-6">
+                            <p className="text-xs text-[var(--text-muted)] mb-2 text-center">Quick pick</p>
+                            <div className="flex justify-center gap-2">
+                              {quickPicksDollars.map(n => (
+                                <motion.button
+                                  key={n}
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  onClick={() => setDollarAmount(n.toString())}
+                                  className={`px-4 py-2 rounded-xl text-sm font-semibold transition-colors ${
+                                    dollarAmount === n.toString()
+                                      ? "bg-[var(--teal)] text-white"
+                                      : "bg-[var(--cream)] text-[var(--text-secondary)] hover:bg-[var(--cream-dark)]"
+                                  }`}
+                                >
+                                  ${n}
+                                </motion.button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
 
                     {/* Summary */}
@@ -252,6 +374,14 @@ export default function TradingModal({
                           {formatCurrency(totalAmount)}
                         </span>
                       </div>
+                      {inputMode === "dollars" && calculatedQuantity > 0 && (
+                        <div className="flex justify-between items-center mb-2 text-sm">
+                          <span className="text-[var(--text-muted)]">Shares to buy</span>
+                          <span className="font-semibold text-[var(--text-secondary)]">
+                            {calculatedQuantity}
+                          </span>
+                        </div>
+                      )}
                       {isBuy && cashBalance !== undefined && (
                         <div className="flex justify-between items-center text-sm">
                           <span className="text-[var(--text-muted)]">Cash After</span>
@@ -266,7 +396,7 @@ export default function TradingModal({
                         <div className="flex justify-between items-center text-sm">
                           <span className="text-[var(--text-muted)]">Shares After</span>
                           <span className="font-semibold text-[var(--text-secondary)]">
-                            {maxQuantity - quantity}
+                            {maxQuantity - calculatedQuantity}
                           </span>
                         </div>
                       )}
@@ -285,7 +415,7 @@ export default function TradingModal({
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={handleSubmit}
-                        disabled={isLoading || quantity < 1 || quantity > maxAllowed}
+                        disabled={isLoading || calculatedQuantity < 1 || calculatedQuantity > maxAllowed}
                         className={`flex-1 py-4 rounded-xl text-white font-display font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
                           isBuy
                             ? "bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)]"
@@ -303,7 +433,7 @@ export default function TradingModal({
                             Processing...
                           </span>
                         ) : (
-                          `${isBuy ? "Buy" : "Sell"} ${quantity} Share${quantity > 1 ? "s" : ""}`
+                          `${isBuy ? "Buy" : "Sell"} ${calculatedQuantity} Share${calculatedQuantity !== 1 ? "s" : ""}`
                         )}
                       </motion.button>
                     </div>
