@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import StockChart from "./StockChart";
 import FinancialTerm from "./FinancialTerm";
@@ -99,6 +100,7 @@ function formatVolume(num: number): string {
 }
 
 export default function CompanySearch() {
+  const router = useRouter();
   const { user, paperAccount, refreshProfile } = useAuth();
   const [query, setQuery] = useState("");
   const [stockData, setStockData] = useState<StockData | null>(null);
@@ -656,6 +658,7 @@ export default function CompanySearch() {
           onSuccess={() => {
             refreshProfile();
             setShowTradingModal(false);
+            router.push("/portfolio");
           }}
         />
       )}
