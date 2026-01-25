@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import StockChart from "./StockChart";
 import FinancialTerm from "./FinancialTerm";
 import TradingModal from "./trading/TradingModal";
+import AddToWatchlistButton from "./watchlist/AddToWatchlistButton";
 import { useAuth } from "./auth/AuthProvider";
 
 interface StockData {
@@ -629,14 +630,21 @@ export default function CompanySearch() {
                       <span>You have <strong className="text-[var(--text-primary)]">{formatCurrency(paperAccount.current_cash)}</strong> to invest</span>
                     </div>
                   )}
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setShowTradingModal(true)}
-                    className="px-8 py-4 bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)] text-white font-display font-semibold rounded-[14px] shadow-lg hover:shadow-xl transition-all"
-                  >
-                    Buy {stockData.symbol}
-                  </motion.button>
+                  <div className="flex items-center gap-3">
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setShowTradingModal(true)}
+                      className="px-8 py-4 bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)] text-white font-display font-semibold rounded-[14px] shadow-lg hover:shadow-xl transition-all"
+                    >
+                      Buy {stockData.symbol}
+                    </motion.button>
+                    <AddToWatchlistButton
+                      symbol={stockData.symbol}
+                      companyName={stockData.name}
+                      size="large"
+                    />
+                  </div>
                 </div>
               </motion.div>
             )}

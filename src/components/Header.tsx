@@ -89,6 +89,13 @@ export default function Header() {
                   >
                     Portfolio
                   </Link>
+                  {/* Watchlist link */}
+                  <Link
+                    href="/watchlist"
+                    className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
+                  >
+                    Watchlist
+                  </Link>
 
                   {/* Profile dropdown */}
                   <div className="relative ml-1" ref={dropdownRef}>
@@ -125,6 +132,27 @@ export default function Header() {
                               className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
                             >
                               📊 My Portfolio
+                            </Link>
+                            <Link
+                              href="/watchlist"
+                              onClick={() => setShowDropdown(false)}
+                              className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
+                            >
+                              ❤️ Watchlist
+                            </Link>
+                            <Link
+                              href="/leaderboard"
+                              onClick={() => setShowDropdown(false)}
+                              className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
+                            >
+                              🏆 Leaderboard
+                            </Link>
+                            <Link
+                              href="/friends"
+                              onClick={() => setShowDropdown(false)}
+                              className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
+                            >
+                              👥 Friends
                             </Link>
                             <button
                               onClick={async () => {

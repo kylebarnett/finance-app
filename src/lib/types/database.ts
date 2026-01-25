@@ -68,3 +68,79 @@ export interface PortfolioSummary {
   total_gain_loss_percent: number;
   holdings: HoldingWithPrice[];
 }
+
+// Watchlist types
+export interface WatchlistItem {
+  id: string;
+  user_id: string;
+  symbol: string;
+  company_name: string | null;
+  added_at: string;
+  notes: string | null;
+}
+
+export interface WatchlistItemWithPrice extends WatchlistItem {
+  current_price: number;
+  change: number;
+  change_percent: number;
+  emoji: string;
+}
+
+// Leaderboard types
+export interface LeaderboardSettings {
+  id: string;
+  user_id: string;
+  show_on_public_leaderboard: boolean;
+  display_name_override: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LeaderboardEntry {
+  rank: number;
+  user_id: string;
+  display_name: string;
+  avatar_emoji: string;
+  total_value: number;
+  gain_loss_percent: number;
+  trade_count: number;
+}
+
+// Friend group types
+export interface FriendGroup {
+  id: string;
+  name: string;
+  description: string | null;
+  emoji: string;
+  created_by: string | null;
+  invite_code: string;
+  is_active: boolean;
+  max_members: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface FriendGroupMember {
+  id: string;
+  group_id: string;
+  user_id: string;
+  role: 'owner' | 'admin' | 'member';
+  joined_at: string;
+}
+
+export interface FriendGroupWithDetails extends FriendGroup {
+  member_count: number;
+  members: (FriendGroupMember & { profile: Profile })[];
+}
+
+export interface FriendInvitation {
+  id: string;
+  inviter_id: string;
+  invitee_email: string | null;
+  invite_code: string;
+  group_id: string | null;
+  status: 'pending' | 'accepted' | 'declined' | 'expired';
+  created_at: string;
+  expires_at: string;
+  accepted_at: string | null;
+}
