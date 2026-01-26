@@ -135,6 +135,13 @@ export default function Header() {
                           </div>
                           <div className="p-2">
                             <Link
+                              href="/profile"
+                              onClick={() => setShowDropdown(false)}
+                              className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
+                            >
+                              👤 Profile
+                            </Link>
+                            <Link
                               href="/portfolio"
                               onClick={() => setShowDropdown(false)}
                               className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
@@ -167,7 +174,7 @@ export default function Header() {
                               onClick={() => setShowDropdown(false)}
                               className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
                             >
-                              🏆 Achievements
+                              🎖️ Achievements
                             </Link>
                             <div className="border-t border-[var(--cream-dark)] my-1" />
                             <Link
@@ -321,6 +328,13 @@ export default function Header() {
                         </div>
                         <div className="border-t border-[var(--cream-dark)]" />
                         <div className="p-2">
+                          <Link
+                            href="/profile"
+                            onClick={closeMobileMenu}
+                            className="block px-4 py-3 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors font-medium"
+                          >
+                            👤 Profile
+                          </Link>
                           <Link
                             href="/portfolio"
                             onClick={closeMobileMenu}
