@@ -10,6 +10,7 @@ interface AuthContextType {
   profile: Profile | null;
   paperAccount: PaperAccount | null;
   isLoading: boolean;
+  onboardingCompleted: boolean;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType>({
   profile: null,
   paperAccount: null,
   isLoading: true,
+  onboardingCompleted: false,
   signOut: async () => {},
   refreshProfile: async () => {},
 });
@@ -134,6 +136,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, [supabase]);
 
+  // Derive onboarding status from profile
+  const onboardingCompleted = profile?.onboarding_completed ?? false;
+
   return (
     <AuthContext.Provider
       value={{
@@ -141,6 +146,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         profile,
         paperAccount,
         isLoading,
+        onboardingCompleted,
         signOut,
         refreshProfile,
       }}

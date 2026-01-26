@@ -7,6 +7,9 @@ export interface Profile {
   age_group: '8-10' | '11-13' | '14-17' | 'adult' | null;
   parent_email: string | null;
   is_parent_verified: boolean;
+  onboarding_completed: boolean;
+  onboarding_completed_at: string | null;
+  onboarding_step: number;
   created_at: string;
   updated_at: string;
 }

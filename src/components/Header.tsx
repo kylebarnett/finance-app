@@ -154,6 +154,14 @@ export default function Header() {
                             >
                               👥 Friends
                             </Link>
+                            <div className="border-t border-[var(--cream-dark)] my-1" />
+                            <Link
+                              href="/onboarding"
+                              onClick={() => setShowDropdown(false)}
+                              className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
+                            >
+                              🎓 Tutorial
+                            </Link>
                             <button
                               onClick={async () => {
                                 await signOut();
