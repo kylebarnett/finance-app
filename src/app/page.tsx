@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import MarketDashboard from "@/components/MarketDashboard";
 import CompanySearch from "@/components/CompanySearch";
+import NewsSection from "@/components/news/NewsSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -28,6 +29,9 @@ export default function Home() {
           <MarketDashboard />
         </div>
       </section>
+
+      {/* News Section */}
+      <NewsSection />
 
       {/* Footer */}
       <Footer />

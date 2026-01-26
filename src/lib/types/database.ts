@@ -147,3 +147,17 @@ export interface FriendInvitation {
   expires_at: string;
   accepted_at: string | null;
 }
+
+// News types
+export interface NewsItem {
+  id: string;
+  title: string;
+  summary: string;
+  source: string;
+  publishedAt: string;
+  url: string;
+  thumbnail?: string;
+  relatedSymbols: string[];
+  sentiment: 'positive' | 'neutral' | 'negative';
+  emoji: string;
+}

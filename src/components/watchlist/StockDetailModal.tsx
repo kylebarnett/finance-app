@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import StockChart from "@/components/StockChart";
+import StockNewsPreview from "@/components/news/StockNewsPreview";
 
 interface StockDetailModalProps {
   isOpen: boolean;
@@ -222,6 +223,13 @@ export default function StockDetailModal({ isOpen, onClose, symbol, onBuy }: Sto
                       </div>
                     </div>
                   )}
+
+                  {/* News Preview */}
+                  <StockNewsPreview
+                    symbol={stockData.symbol}
+                    companyName={stockData.name}
+                    limit={3}
+                  />
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-2 gap-3 mb-6">
