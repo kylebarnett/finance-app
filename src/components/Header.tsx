@@ -154,6 +154,13 @@ export default function Header() {
                             >
                               👥 Friends
                             </Link>
+                            <Link
+                              href="/achievements"
+                              onClick={() => setShowDropdown(false)}
+                              className="block px-3 py-2 rounded-xl text-sm text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors"
+                            >
+                              🏆 Achievements
+                            </Link>
                             <div className="border-t border-[var(--cream-dark)] my-1" />
                             <Link
                               href="/onboarding"

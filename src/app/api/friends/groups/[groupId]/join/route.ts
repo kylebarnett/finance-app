@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { checkGroupAchievements } from "@/lib/achievements/checker";
 
 // POST - Join a group via invite code
 export async function POST(
@@ -79,6 +80,9 @@ export async function POST(
       );
     }
 
+    // Check for group achievements
+    const achievementResult = await checkGroupAchievements(user.id);
+
     return NextResponse.json({
       success: true,
       data: {
@@ -87,6 +91,7 @@ export async function POST(
         emoji: group.emoji,
       },
       message: `Welcome to ${group.name}!`,
+      achievements: achievementResult.newlyUnlocked.length > 0 ? achievementResult.newlyUnlocked : undefined,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

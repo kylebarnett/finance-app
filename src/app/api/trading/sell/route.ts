@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import YahooFinance from "yahoo-finance2";
 import type { PaperAccount, Holding } from "@/lib/types/database";
+import { checkTradingAchievements, checkPortfolioAchievements } from "@/lib/achievements/checker";
 
 const yahooFinance = new YahooFinance();
 
@@ -184,6 +185,17 @@ export async function POST(request: NextRequest) {
       ? `You made $${realizedGain.toFixed(2)} profit on this trade!`
       : `You lost $${Math.abs(realizedGain).toFixed(2)} on this trade. That's okay - it's all part of learning!`;
 
+    // Check for newly unlocked achievements
+    const [tradingResult, portfolioResult] = await Promise.all([
+      checkTradingAchievements(user.id),
+      checkPortfolioAchievements(user.id),
+    ]);
+
+    const newlyUnlocked = [
+      ...tradingResult.newlyUnlocked,
+      ...portfolioResult.newlyUnlocked,
+    ];
+
     return NextResponse.json({
       success: true,
       data: {
@@ -201,6 +213,7 @@ export async function POST(request: NextRequest) {
           averageCost: holding.average_cost,
         } : null,
         newCashBalance,
+        achievements: newlyUnlocked.length > 0 ? newlyUnlocked : undefined,
       },
       timestamp: new Date().toISOString(),
     });

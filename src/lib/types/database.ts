@@ -161,3 +161,33 @@ export interface NewsItem {
   sentiment: 'positive' | 'neutral' | 'negative';
   emoji: string;
 }
+
+// Achievement types
+export interface Achievement {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  emoji: string;
+  category: 'trading' | 'portfolio' | 'learning' | 'social' | 'streaks';
+  tier: 'bronze' | 'silver' | 'gold' | 'platinum';
+  points: number;
+  sort_order: number;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface UserAchievement {
+  id: string;
+  user_id: string;
+  achievement_id: string;
+  unlocked_at: string;
+  progress_value: number;
+  is_seen: boolean;
+}
+
+export interface AchievementWithStatus extends Achievement {
+  is_unlocked: boolean;
+  unlocked_at: string | null;
+  progress_value: number;
+}

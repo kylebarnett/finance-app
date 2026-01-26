@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { nanoid } from "nanoid";
+import { checkGroupAchievements } from "@/lib/achievements/checker";
 
 // GET - List user's friend groups
 export async function GET() {
@@ -166,6 +167,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check for group achievements
+    const achievementResult = await checkGroupAchievements(user.id);
+
     return NextResponse.json({
       success: true,
       data: {
@@ -174,6 +178,7 @@ export async function POST(request: NextRequest) {
         member_count: 1,
       },
       message: `Your group "${newGroup.name}" has been created!`,
+      achievements: achievementResult.newlyUnlocked.length > 0 ? achievementResult.newlyUnlocked : undefined,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {

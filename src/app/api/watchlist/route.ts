@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import YahooFinance from "yahoo-finance2";
 import type { WatchlistItem } from "@/lib/types/database";
+import { checkWatchlistAchievements } from "@/lib/achievements/checker";
 
 const yahooFinance = new YahooFinance();
 
@@ -191,6 +192,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check for watchlist achievements
+    const achievementResult = await checkWatchlistAchievements(user.id);
+
     return NextResponse.json({
       success: true,
       data: {
@@ -198,6 +202,7 @@ export async function POST(request: NextRequest) {
         emoji: companyEmojis[upperSymbol] || "🏢",
       },
       message: `${company_name || upperSymbol} added to your watchlist!`,
+      achievements: achievementResult.newlyUnlocked.length > 0 ? achievementResult.newlyUnlocked : undefined,
       timestamp: new Date().toISOString(),
     });
   } catch (error) {
