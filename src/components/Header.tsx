@@ -28,7 +28,7 @@ export default function Header() {
   }, [showDropdown]);
 
   return (
-    <header className="w-full py-6 px-4 relative z-10">
+    <header className="w-full py-6 px-4 relative z-40">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/">
@@ -115,7 +115,7 @@ export default function Header() {
                           initial={{ opacity: 0, y: 10, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-lg border border-[var(--cream-dark)] overflow-hidden"
+                          className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-lg border border-[var(--cream-dark)] overflow-hidden z-50"
                         >
                           <div className="p-3 border-b border-[var(--cream-dark)]">
                             <p className="font-semibold text-[var(--text-primary)]">
