@@ -18,6 +18,7 @@ interface HoldingsListProps {
   holdings: Holding[];
   isLoading?: boolean;
   onSell?: (holding: Holding) => void;
+  onSelect?: (holding: Holding) => void;
 }
 
 function formatCurrency(amount: number): string {
@@ -47,6 +48,7 @@ export default function HoldingsList({
   holdings,
   isLoading = false,
   onSell,
+  onSelect,
 }: HoldingsListProps) {
   if (isLoading) {
     return (
@@ -112,7 +114,8 @@ export default function HoldingsList({
             initial="hidden"
             animate="visible"
             whileHover={{ scale: 1.01 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-soft)] border border-transparent hover:border-[var(--cream-dark)] transition-all"
+            onClick={() => onSelect?.(holding)}
+            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-soft)] border border-transparent hover:border-[var(--cream-dark)] transition-all cursor-pointer"
           >
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               {/* Left side - Company info */}
@@ -168,7 +171,10 @@ export default function HoldingsList({
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => onSell(holding)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSell(holding);
+                    }}
                     className="px-4 py-2 bg-[var(--coral)]/10 text-[var(--coral)] font-semibold rounded-xl hover:bg-[var(--coral)]/20 transition-colors"
                   >
                     Sell
@@ -197,6 +203,15 @@ export default function HoldingsList({
                   {isPositive ? "+" : ""}{holding.gainLossPercent.toFixed(1)}%
                 </span>
               </div>
+              {/* Tap for details hint */}
+              {onSelect && (
+                <div className="mt-3 text-center">
+                  <span className="text-xs text-[var(--text-muted)] flex items-center justify-center gap-1">
+                    <span>Tap for details</span>
+                    <span>→</span>
+                  </span>
+                </div>
+              )}
             </div>
           </motion.div>
         );

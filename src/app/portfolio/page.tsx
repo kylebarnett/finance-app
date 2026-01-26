@@ -9,6 +9,7 @@ import PortfolioSummary from "@/components/trading/PortfolioSummary";
 import HoldingsList from "@/components/trading/HoldingsList";
 import TransactionHistory from "@/components/trading/TransactionHistory";
 import TradingModal from "@/components/trading/TradingModal";
+import HoldingDetailModal from "@/components/trading/HoldingDetailModal";
 import QuickStockSearch from "@/components/trading/QuickStockSearch";
 import { useAuth } from "@/components/auth/AuthProvider";
 
@@ -77,6 +78,10 @@ export default function PortfolioPage() {
     isOpen: boolean;
     stock: StockData | null;
   }>({ isOpen: false, stock: null });
+  const [detailModal, setDetailModal] = useState<{
+    isOpen: boolean;
+    holding: Holding | null;
+  }>({ isOpen: false, holding: null });
 
   const fetchPortfolio = useCallback(async () => {
     try {
@@ -141,6 +146,34 @@ export default function PortfolioPage() {
 
   const handleSell = (holding: Holding) => {
     setSellModal({ isOpen: true, holding });
+  };
+
+  const handleSelectHolding = (holding: Holding) => {
+    setDetailModal({ isOpen: true, holding });
+  };
+
+  const handleBuyMoreFromDetail = () => {
+    if (detailModal.holding) {
+      setDetailModal({ isOpen: false, holding: null });
+      setBuyModal({
+        isOpen: true,
+        stock: {
+          symbol: detailModal.holding.symbol,
+          name: detailModal.holding.companyName,
+          price: detailModal.holding.currentPrice,
+          change: 0,
+          changePercent: 0,
+          emoji: detailModal.holding.emoji,
+        },
+      });
+    }
+  };
+
+  const handleSellFromDetail = () => {
+    if (detailModal.holding) {
+      setDetailModal({ isOpen: false, holding: null });
+      setSellModal({ isOpen: true, holding: detailModal.holding });
+    }
   };
 
   const handleSelectStock = (stock: StockData) => {
@@ -308,6 +341,7 @@ export default function PortfolioPage() {
               holdings={portfolioData?.holdings ?? []}
               isLoading={isLoadingPortfolio}
               onSell={handleSell}
+              onSelect={handleSelectHolding}
             />
           ) : (
             <TransactionHistory
@@ -373,6 +407,17 @@ export default function PortfolioPage() {
           emoji={buyModal.stock.emoji}
           cashBalance={portfolioData?.summary.cashBalance}
           onSuccess={handleTradeSuccess}
+        />
+      )}
+
+      {/* Holding Detail Modal */}
+      {detailModal.holding && (
+        <HoldingDetailModal
+          isOpen={detailModal.isOpen}
+          onClose={() => setDetailModal({ isOpen: false, holding: null })}
+          holding={detailModal.holding}
+          onSell={handleSellFromDetail}
+          onBuyMore={handleBuyMoreFromDetail}
         />
       )}
     </main>
