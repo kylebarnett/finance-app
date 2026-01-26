@@ -132,13 +132,13 @@ export default function TradingModal({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
+          {/* Backdrop - don't allow close during trade */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            onClick={isLoading ? undefined : onClose}
+            className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-50 ${isLoading ? "cursor-not-allowed" : "cursor-pointer"}`}
           />
 
           {/* Modal */}
@@ -184,8 +184,9 @@ export default function TradingModal({
                         </div>
                       </div>
                       <button
-                        onClick={onClose}
-                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+                        onClick={isLoading ? undefined : onClose}
+                        disabled={isLoading}
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                           <path d="M2 2l10 10M12 2L2 12" />

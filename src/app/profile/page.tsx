@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,6 +9,7 @@ import ProfileStats from "@/components/profile/ProfileStats";
 import PrivacySettings from "@/components/profile/PrivacySettings";
 import EditProfileModal from "@/components/profile/EditProfileModal";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { useTheme } from "@/components/ThemeProvider";
 import type { Profile } from "@/lib/types/database";
 
 interface ProfileData {
@@ -30,10 +31,15 @@ interface ProfileData {
 
 export default function ProfilePage() {
   const { user, isLoading: authLoading, signOut, refreshProfile } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const fetchProfile = useCallback(async () => {
     try {
@@ -114,6 +120,32 @@ export default function ProfilePage() {
       month: "long",
       year: "numeric",
     });
+  };
+
+  const handleDeleteAccount = async () => {
+    if (deleteConfirmText !== "DELETE") return;
+
+    setIsDeleting(true);
+    setDeleteError(null);
+
+    try {
+      const response = await fetch("/api/user/delete", {
+        method: "DELETE",
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Redirect to home after deletion
+        window.location.href = "/?deleted=true";
+      } else {
+        setDeleteError(result.error || "Failed to delete account");
+      }
+    } catch {
+      setDeleteError("Something went wrong. Please try again.");
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   // Not logged in state
@@ -349,6 +381,34 @@ export default function ProfilePage() {
               </h3>
 
               <div className="space-y-3">
+                {/* Theme Toggle */}
+                <div className="p-4 bg-[var(--cream)]/50 rounded-xl flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{theme === "dark" ? "🌙" : "☀️"}</span>
+                    <div>
+                      <p className="font-semibold text-[var(--text-primary)]">Dark Mode</p>
+                      <p className="text-sm text-[var(--text-muted)]">
+                        {theme === "dark" ? "Currently on" : "Currently off"}
+                      </p>
+                    </div>
+                  </div>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    onClick={toggleTheme}
+                    className={`w-14 h-8 rounded-full p-1 transition-colors ${
+                      theme === "dark" ? "bg-[var(--teal)]" : "bg-[var(--cream-dark)]"
+                    }`}
+                  >
+                    <motion.div
+                      animate={{ x: theme === "dark" ? 24 : 0 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center text-xs"
+                    >
+                      {theme === "dark" ? "🌙" : "☀️"}
+                    </motion.div>
+                  </motion.button>
+                </div>
+
                 <Link href="/onboarding">
                   <motion.button
                     whileHover={{ scale: 1.01 }}
@@ -378,6 +438,35 @@ export default function ProfilePage() {
                 </motion.button>
               </div>
             </motion.div>
+
+            {/* Danger Zone */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-white rounded-[20px] p-6 shadow-sm border-2 border-[var(--down-red)]/20"
+            >
+              <h3 className="font-display text-lg font-bold text-[var(--down-red)] mb-4 flex items-center gap-2">
+                <span>⚠️</span> Danger Zone
+              </h3>
+
+              <p className="text-sm text-[var(--text-muted)] mb-4">
+                Deleting your account will permanently remove all your data including your portfolio,
+                trade history, achievements, and watchlist. This action cannot be undone.
+              </p>
+
+              <motion.button
+                whileHover={{ scale: 1.01 }}
+                onClick={() => setShowDeleteModal(true)}
+                className="w-full p-4 bg-[var(--down-red)]/10 rounded-xl hover:bg-[var(--down-red)]/20 transition-colors flex items-center gap-3 text-left border border-[var(--down-red)]/30"
+              >
+                <span className="text-2xl">🗑️</span>
+                <div>
+                  <p className="font-semibold text-[var(--down-red)]">Delete Account</p>
+                  <p className="text-sm text-[var(--down-red)]/70">Permanently delete all your data</p>
+                </div>
+              </motion.button>
+            </motion.div>
           </div>
         ) : null}
       </section>
@@ -394,6 +483,126 @@ export default function ProfilePage() {
           onSave={handleSaveProfile}
         />
       )}
+
+      {/* Delete Account Confirmation Modal */}
+      <AnimatePresence>
+        {showDeleteModal && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => !isDeleting && setShowDeleteModal(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
+            />
+
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-[24px] shadow-2xl z-50 overflow-hidden"
+            >
+              <div className="p-6 border-b border-[var(--cream-dark)] bg-[var(--down-red)]/10">
+                <div className="flex items-center gap-3">
+                  <span className="text-3xl">⚠️</span>
+                  <div>
+                    <h2 className="font-display text-xl font-bold text-[var(--down-red)]">
+                      Delete Account
+                    </h2>
+                    <p className="text-sm text-[var(--down-red)]/70">
+                      This action cannot be undone
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6">
+                <p className="text-[var(--text-secondary)] mb-4">
+                  Are you sure you want to delete your account? This will permanently delete:
+                </p>
+                <ul className="text-sm text-[var(--text-muted)] mb-6 space-y-2">
+                  <li className="flex items-center gap-2">
+                    <span>📊</span> Your portfolio and all holdings
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>💰</span> Your entire trade history
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>🏆</span> All your achievements and badges
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>👥</span> Your friend groups and memberships
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span>👀</span> Your watchlist
+                  </li>
+                </ul>
+
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold text-[var(--text-primary)] mb-2">
+                    Type <span className="text-[var(--down-red)]">DELETE</span> to confirm
+                  </label>
+                  <input
+                    type="text"
+                    value={deleteConfirmText}
+                    onChange={(e) => setDeleteConfirmText(e.target.value.toUpperCase())}
+                    placeholder="DELETE"
+                    disabled={isDeleting}
+                    className="w-full px-4 py-3 rounded-xl border border-[var(--cream-dark)] focus:outline-none focus:ring-2 focus:ring-[var(--down-red)] text-center font-mono text-lg"
+                  />
+                </div>
+
+                {deleteError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-4 p-3 bg-[var(--down-red-bg)] text-[var(--down-red)] rounded-xl text-sm text-center"
+                  >
+                    {deleteError}
+                  </motion.div>
+                )}
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      setShowDeleteModal(false);
+                      setDeleteConfirmText("");
+                      setDeleteError(null);
+                    }}
+                    disabled={isDeleting}
+                    className="flex-1 py-3 bg-[var(--cream)] text-[var(--text-secondary)] font-semibold rounded-xl hover:bg-[var(--cream-dark)] transition-colors disabled:opacity-50"
+                  >
+                    Cancel
+                  </button>
+                  <motion.button
+                    whileHover={deleteConfirmText === "DELETE" ? { scale: 1.02 } : {}}
+                    whileTap={deleteConfirmText === "DELETE" ? { scale: 0.98 } : {}}
+                    onClick={handleDeleteAccount}
+                    disabled={deleteConfirmText !== "DELETE" || isDeleting}
+                    className="flex-1 py-3 bg-[var(--down-red)] text-white font-semibold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isDeleting ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <motion.span
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        >
+                          ⏳
+                        </motion.span>
+                        Deleting...
+                      </span>
+                    ) : (
+                      "Delete Forever"
+                    )}
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

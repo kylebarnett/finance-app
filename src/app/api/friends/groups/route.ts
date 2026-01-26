@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { nanoid } from "nanoid";
 import { checkGroupAchievements } from "@/lib/achievements/checker";
+
+// Generate a random invite code without nanoid (which has ESM issues)
+function generateInviteCode(length = 8): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
 
 // GET - List user's friend groups
 export async function GET() {
@@ -123,7 +132,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate unique invite code
-    const inviteCode = nanoid(8);
+    const inviteCode = generateInviteCode(8);
 
     // Create the group
     const { data: newGroup, error: createError } = await supabase
@@ -143,7 +152,7 @@ export async function POST(request: NextRequest) {
     if (createError) {
       console.error("Group create error:", createError);
       return NextResponse.json(
-        { success: false, error: "Failed to create group" },
+        { success: false, error: `Failed to create group: ${createError.message}` },
         { status: 500 }
       );
     }
@@ -162,7 +171,7 @@ export async function POST(request: NextRequest) {
       // Rollback group creation
       await supabase.from("friend_groups").delete().eq("id", newGroup.id);
       return NextResponse.json(
-        { success: false, error: "Failed to create group" },
+        { success: false, error: `Failed to add you to the group: ${memberError.message}` },
         { status: 500 }
       );
     }
