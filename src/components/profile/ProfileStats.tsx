@@ -33,7 +33,7 @@ export default function ProfileStats({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
-          className="bg-white rounded-[20px] p-4 shadow-sm text-center"
+          className="bg-[var(--card-bg-solid)] rounded-[20px] p-4 shadow-[var(--shadow-soft)] text-center"
         >
           <motion.div
             whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}

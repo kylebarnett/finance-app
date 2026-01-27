@@ -124,7 +124,7 @@ export default function QuickStockSearch({ onSelectStock, cashBalance }: QuickSt
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => results.length > 0 && setShowResults(true)}
           placeholder="Search for a stock to buy..."
-          className="w-full px-5 py-4 pl-12 bg-white/70 backdrop-blur-sm rounded-2xl border-2 border-transparent focus:border-[var(--teal)] focus:outline-none text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-all shadow-sm"
+          className="w-full px-5 py-4 pl-12 bg-[var(--card-bg)] backdrop-blur-sm rounded-2xl border-2 border-transparent focus:border-[var(--teal)] focus:outline-none text-[var(--text-primary)] placeholder:text-[var(--text-muted)] transition-all shadow-sm"
         />
         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">
           {isSearching || isLoadingStock ? (
@@ -153,7 +153,7 @@ export default function QuickStockSearch({ onSelectStock, cashBalance }: QuickSt
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-[var(--cream-dark)] overflow-hidden z-20"
+            className="absolute top-full left-0 right-0 mt-2 bg-[var(--card-bg-solid)] rounded-2xl shadow-xl border border-[var(--cream-dark)] overflow-hidden z-20"
           >
             {results.map((result, index) => (
               <motion.button

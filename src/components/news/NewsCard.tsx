@@ -55,7 +55,7 @@ export default function NewsCard({ news, compact = false }: NewsCardProps) {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-[24px] shadow-2xl z-50 overflow-hidden max-h-[85vh] flex flex-col"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-[var(--card-bg-solid)] rounded-[24px] shadow-2xl z-50 overflow-hidden max-h-[85vh] flex flex-col"
           >
             {/* Close button */}
             <button
@@ -88,7 +88,7 @@ export default function NewsCard({ news, compact = false }: NewsCardProps) {
               <div className={`relative w-full h-32 flex-shrink-0 flex items-center justify-center ${sentimentLabels[news.sentiment].bg}`}>
                 <span className="text-6xl">{news.emoji}</span>
                 <div className="absolute bottom-4 left-4">
-                  <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-white/90 ${sentimentLabels[news.sentiment].color}`}>
+                  <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold bg-[var(--card-bg)]/90 ${sentimentLabels[news.sentiment].color}`}>
                     {sentimentLabels[news.sentiment].text}
                   </span>
                 </div>
@@ -182,7 +182,7 @@ export default function NewsCard({ news, compact = false }: NewsCardProps) {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-[24px] shadow-2xl z-50 p-6"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-[var(--card-bg-solid)] rounded-[24px] shadow-2xl z-50 p-6"
           >
             <div className="text-center">
               <span className="text-5xl">🔗</span>
@@ -221,7 +221,7 @@ export default function NewsCard({ news, compact = false }: NewsCardProps) {
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
           onClick={handleClick}
-          className="flex items-start gap-3 p-3 bg-white/50 rounded-xl cursor-pointer hover:bg-white/80 transition-colors"
+          className="flex items-start gap-3 p-3 bg-[var(--card-bg)]/50 rounded-xl cursor-pointer hover:bg-[var(--card-bg)]/80 transition-colors"
         >
           <span className="text-xl flex-shrink-0">{news.emoji}</span>
           <div className="flex-1 min-w-0">
@@ -254,7 +254,7 @@ export default function NewsCard({ news, compact = false }: NewsCardProps) {
         <div className="flex items-start gap-3 mb-3">
           <motion.div
             whileHover={{ rotate: [0, -10, 10, 0] }}
-            className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm flex-shrink-0"
+            className="w-10 h-10 bg-[var(--card-bg-solid)] rounded-xl flex items-center justify-center text-xl shadow-sm flex-shrink-0"
           >
             {news.emoji}
           </motion.div>

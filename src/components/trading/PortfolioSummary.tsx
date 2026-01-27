@@ -47,7 +47,7 @@ export default function PortfolioSummary({
 
   if (isLoading) {
     return (
-      <div className="bg-white/70 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] mb-8">
+      <div className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] mb-8">
         <div className="animate-pulse">
           <div className="h-8 bg-[var(--cream)] rounded-xl w-48 mb-4"></div>
           <div className="h-12 bg-[var(--cream)] rounded-xl w-64 mb-6"></div>
@@ -65,7 +65,7 @@ export default function PortfolioSummary({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white/70 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] mb-8"
+      className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] mb-8"
     >
       {/* Header with mood */}
       <div className="flex items-center justify-between mb-2">

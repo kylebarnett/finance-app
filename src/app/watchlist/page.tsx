@@ -6,6 +6,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WatchlistCard from "@/components/watchlist/WatchlistCard";
+import WatchlistSearch from "@/components/watchlist/WatchlistSearch";
 import StockDetailModal from "@/components/watchlist/StockDetailModal";
 import TradingModal from "@/components/trading/TradingModal";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -91,6 +92,19 @@ export default function WatchlistPage() {
     setBuyModal({ isOpen: false, stock: null });
   };
 
+  const handleAddStock = (stock: { symbol: string; name: string; price: number; change: number; changePercent: number; emoji: string }) => {
+    // Add the new stock to the watchlist state
+    setWatchlist(prev => [...prev, {
+      id: `temp-${stock.symbol}`,
+      symbol: stock.symbol,
+      company_name: stock.name,
+      current_price: stock.price,
+      change: stock.change,
+      change_percent: stock.changePercent,
+      emoji: stock.emoji,
+    }]);
+  };
+
   // Not logged in state
   if (!authLoading && !user) {
     return (
@@ -100,7 +114,7 @@ export default function WatchlistPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
           >
             <motion.div
               animate={{ y: [0, -10, 0] }}
@@ -151,7 +165,7 @@ export default function WatchlistPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-10"
+          className="text-center mb-8"
         >
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -170,13 +184,19 @@ export default function WatchlistPage() {
           </motion.p>
         </motion.div>
 
+        {/* Search Component */}
+        <WatchlistSearch
+          onAdd={handleAddStock}
+          existingSymbols={watchlist.map(item => item.symbol)}
+        />
+
         {/* Loading State */}
         {isLoading && (
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="bg-white/70 backdrop-blur-sm rounded-[20px] p-5 shadow-[var(--shadow-soft)]"
+                className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[20px] p-5 shadow-[var(--shadow-soft)]"
               >
                 <div className="animate-pulse flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -201,30 +221,21 @@ export default function WatchlistPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
           >
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="text-6xl mb-4"
             >
-              🔍
+              ⭐
             </motion.div>
             <h3 className="font-display text-xl font-bold text-[var(--text-primary)] mb-2">
               Your watchlist is empty!
             </h3>
-            <p className="text-[var(--text-secondary)] mb-6 max-w-md mx-auto">
-              Search for companies you like and add them to your watchlist to track their prices.
+            <p className="text-[var(--text-secondary)] max-w-md mx-auto">
+              Use the search box above to find stocks and add them to your watchlist.
             </p>
-            <Link href="/#learn">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)] text-white font-display font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
-              >
-                Search for Stocks 🔍
-              </motion.button>
-            </Link>
           </motion.div>
         )}
 
@@ -252,25 +263,16 @@ export default function WatchlistPage() {
               ))}
             </AnimatePresence>
 
-            {/* Add more prompt */}
+            {/* Watchlist count */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
               className="text-center pt-6"
             >
-              <p className="text-[var(--text-muted)] mb-3">
+              <p className="text-[var(--text-muted)]">
                 {watchlist.length}/20 stocks on your watchlist
               </p>
-              <Link href="/#learn">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="text-[var(--teal)] font-semibold hover:underline"
-                >
-                  + Add more stocks
-                </motion.button>
-              </Link>
             </motion.div>
           </motion.div>
         )}

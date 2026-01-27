@@ -255,7 +255,7 @@ export default function MarketDashboard() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white/50 rounded-[24px] p-6 h-[280px] shimmer"
+              className="bg-[var(--card-bg)]/50 rounded-[24px] p-6 h-[280px] shimmer"
             />
           ))}
         </div>
@@ -275,7 +275,7 @@ export default function MarketDashboard() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 200 }}
-          className="inline-flex items-center gap-3 bg-white/60 backdrop-blur-sm px-6 py-3 rounded-full shadow-sm mb-4"
+          className="inline-flex items-center gap-3 bg-[var(--card-bg)]/60 backdrop-blur-sm px-6 py-3 rounded-full shadow-sm mb-4"
         >
           <motion.span
             animate={{ scale: [1, 1.3, 1] }}
@@ -352,7 +352,7 @@ export default function MarketDashboard() {
                 onClick={() => setSelectedCard(isSelected ? null : i)}
                 className={`
                   relative overflow-hidden cursor-pointer
-                  bg-white/70 backdrop-blur-sm rounded-[24px] p-6
+                  bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-6
                   border-3 transition-colors duration-300
                   ${isSelected
                     ? `border-[var(--${meta.color})] shadow-xl`
@@ -481,7 +481,7 @@ export default function MarketDashboard() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="col-span-1 md:col-span-3 bg-white/80 backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)]"
+                  className="col-span-1 md:col-span-3 bg-[var(--card-bg)]/80 backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)]"
                 >
                   {/* Header */}
                   <div className="flex items-center justify-between mb-6">

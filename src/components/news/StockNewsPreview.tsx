@@ -58,7 +58,7 @@ export default function StockNewsPreview({
           {[1, 2].map((i) => (
             <div
               key={i}
-              className="h-16 bg-white/30 rounded-xl animate-pulse"
+              className="h-16 bg-[var(--card-bg)]/30 rounded-xl animate-pulse"
             />
           ))}
         </div>

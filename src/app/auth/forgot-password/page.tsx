@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
           </Link>
 
           {/* Success Card */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)] text-center">
+          <div className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)] text-center">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -110,7 +110,7 @@ export default function ForgotPasswordPage() {
         </Link>
 
         {/* Card */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)]">
+        <div className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)]">
           <div className="text-center mb-8">
             <div className="text-5xl mb-4">🔐</div>
             <h1 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-2">

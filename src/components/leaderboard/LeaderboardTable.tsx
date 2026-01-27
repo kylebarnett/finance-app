@@ -39,7 +39,7 @@ export default function LeaderboardTable({ entries, currentUserId }: Leaderboard
   }
 
   return (
-    <div className="bg-white/70 backdrop-blur-sm rounded-[24px] shadow-[var(--shadow-soft)] overflow-hidden">
+    <div className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] shadow-[var(--shadow-soft)] overflow-hidden">
       {/* Header */}
       <div className="bg-[var(--cream)] px-4 py-3 border-b border-[var(--cream-dark)]">
         <div className="flex items-center">

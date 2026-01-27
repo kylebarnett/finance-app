@@ -176,7 +176,7 @@ export default function LeaderboardPage() {
             {[1, 2, 3, 4, 5].map((i) => (
               <div
                 key={i}
-                className="bg-white/70 backdrop-blur-sm rounded-[20px] p-4 shadow-[var(--shadow-soft)]"
+                className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[20px] p-4 shadow-[var(--shadow-soft)]"
               >
                 <div className="animate-pulse flex items-center gap-4">
                   <div className="w-12 h-12 bg-[var(--cream)] rounded-full"></div>
@@ -196,7 +196,7 @@ export default function LeaderboardPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
           >
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}

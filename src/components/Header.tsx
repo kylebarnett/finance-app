@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function Header() {
   const { user, profile, isLoading, signOut } = useAuth();
+  const router = useRouter();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -62,22 +64,22 @@ export default function Header() {
         </Link>
 
         {/* Navigation + CTA unified */}
-        <nav className="hidden sm:flex items-center gap-1 p-1.5 bg-white/60 backdrop-blur-sm rounded-full shadow-sm border border-white/50">
+        <nav className="hidden sm:flex items-center gap-1 p-1.5 bg-[var(--card-bg)] backdrop-blur-sm rounded-full shadow-sm border border-[var(--cream-dark)]">
           <Link
             href="/"
-            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
+            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--cream)] transition-all"
           >
             Home
           </Link>
           <Link
             href="/#markets"
-            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
+            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--cream)] transition-all"
           >
             Markets
           </Link>
           <Link
             href="/#learn"
-            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
+            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--cream)] transition-all"
           >
             Search
           </Link>
@@ -85,13 +87,13 @@ export default function Header() {
           {/* Portfolio and Watchlist - always visible */}
           <Link
             href="/portfolio"
-            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
+            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--cream)] transition-all"
           >
             Portfolio
           </Link>
           <Link
             href="/watchlist"
-            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
+            className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--cream)] transition-all"
           >
             Watchlist
           </Link>
@@ -117,7 +119,7 @@ export default function Header() {
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-lg border border-[var(--cream-dark)] overflow-hidden z-50"
+                    className="absolute right-0 mt-2 w-48 bg-[var(--card-bg-solid)] rounded-2xl shadow-lg border border-[var(--cream-dark)] overflow-hidden z-50"
                   >
                     <div className="p-3 border-b border-[var(--cream-dark)]">
                       <p className="font-semibold text-[var(--text-primary)]">
@@ -180,9 +182,10 @@ export default function Header() {
                       </Link>
                       <button
                         onClick={async () => {
-                          await signOut();
                           setShowDropdown(false);
-                          window.location.href = "/";
+                          await signOut();
+                          router.push("/");
+                          router.refresh();
                         }}
                         className="w-full text-left px-3 py-2 rounded-xl text-sm text-[var(--down-red)] hover:bg-[var(--down-red-bg)] transition-colors"
                       >
@@ -197,7 +200,7 @@ export default function Header() {
             <>
               <Link
                 href="/auth/login"
-                className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-white/80 transition-all"
+                className="px-4 py-2 rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--cream)] transition-all"
               >
                 Log In
               </Link>
@@ -219,7 +222,7 @@ export default function Header() {
         <div className="sm:hidden" ref={mobileMenuRef}>
           <button
             onClick={() => setShowMobileMenu(!showMobileMenu)}
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 backdrop-blur-sm border border-white/50"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--card-bg)] backdrop-blur-sm border border-[var(--cream-dark)] text-[var(--text-primary)]"
             aria-label="Menu"
           >
             <AnimatePresence mode="wait">
@@ -267,7 +270,7 @@ export default function Header() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="absolute right-4 top-20 w-64 bg-white rounded-2xl shadow-xl border border-[var(--cream-dark)] overflow-hidden z-50"
+                className="absolute right-4 top-20 w-64 bg-[var(--card-bg-solid)] rounded-2xl shadow-xl border border-[var(--cream-dark)] overflow-hidden z-50"
               >
                 {/* Navigation Links - always visible */}
                 <div className="p-2">
@@ -377,9 +380,10 @@ export default function Header() {
                     <div className="p-2">
                       <button
                         onClick={async () => {
-                          await signOut();
                           closeMobileMenu();
-                          window.location.href = "/";
+                          await signOut();
+                          router.push("/");
+                          router.refresh();
                         }}
                         className="w-full text-left px-4 py-3 rounded-xl text-[var(--down-red)] hover:bg-[var(--down-red-bg)] transition-colors font-medium"
                       >

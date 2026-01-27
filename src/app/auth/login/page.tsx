@@ -59,7 +59,7 @@ export default function LoginPage() {
         </Link>
 
         {/* Card */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)]">
+        <div className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-medium)] border border-[var(--cream-dark)]">
           <div className="text-center mb-8">
             <h1 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-2">
               Welcome Back!

@@ -111,7 +111,7 @@ export default function AchievementsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="bg-white rounded-[20px] p-4 text-center shadow-sm"
+                className="bg-[var(--card-bg-solid)] rounded-[20px] p-4 text-center shadow-sm"
               >
                 <span className="text-3xl mb-2 block">🎖️</span>
                 <p className="text-2xl font-bold text-[var(--text-primary)]">
@@ -123,7 +123,7 @@ export default function AchievementsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
-                className="bg-white rounded-[20px] p-4 text-center shadow-sm"
+                className="bg-[var(--card-bg-solid)] rounded-[20px] p-4 text-center shadow-sm"
               >
                 <span className="text-3xl mb-2 block">⭐</span>
                 <p className="text-2xl font-bold text-[var(--coral)]">
@@ -135,7 +135,7 @@ export default function AchievementsPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="bg-white rounded-[20px] p-4 text-center shadow-sm"
+                className="bg-[var(--card-bg-solid)] rounded-[20px] p-4 text-center shadow-sm"
               >
                 <span className="text-3xl mb-2 block">🎯</span>
                 <p className="text-2xl font-bold text-[var(--text-primary)]">
@@ -150,7 +150,7 @@ export default function AchievementsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
-              className="mt-6 bg-white rounded-[20px] p-4 shadow-sm"
+              className="mt-6 bg-[var(--card-bg-solid)] rounded-[20px] p-4 shadow-sm"
             >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-[var(--text-secondary)]">

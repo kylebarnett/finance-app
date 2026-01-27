@@ -201,7 +201,7 @@ export default function PortfolioPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
           >
             <motion.div
               animate={{ y: [0, -10, 0] }}
@@ -309,8 +309,8 @@ export default function PortfolioPage() {
             onClick={() => setActiveTab("holdings")}
             className={`flex-1 py-4 rounded-xl font-display font-semibold text-lg transition-all ${
               activeTab === "holdings"
-                ? "bg-[var(--text-primary)] text-white shadow-lg"
-                : "bg-white/70 text-[var(--text-secondary)] hover:bg-white"
+                ? "bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)] text-white shadow-lg"
+                : "bg-[var(--cream)] text-[var(--text-secondary)] hover:bg-[var(--cream-dark)]"
             }`}
           >
             <span className="mr-2">📈</span>
@@ -320,8 +320,8 @@ export default function PortfolioPage() {
             onClick={() => setActiveTab("history")}
             className={`flex-1 py-4 rounded-xl font-display font-semibold text-lg transition-all ${
               activeTab === "history"
-                ? "bg-[var(--text-primary)] text-white shadow-lg"
-                : "bg-white/70 text-[var(--text-secondary)] hover:bg-white"
+                ? "bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)] text-white shadow-lg"
+                : "bg-[var(--cream)] text-[var(--text-secondary)] hover:bg-[var(--cream-dark)]"
             }`}
           >
             <span className="mr-2">📋</span>

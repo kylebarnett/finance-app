@@ -240,7 +240,7 @@ export default function CompanySearch() {
             onFocus={() => setShowSuggestions(true)}
             onKeyDown={handleKeyDown}
             placeholder="Search any company (Apple, Tesla, Nike...)"
-            className="w-full pl-14 pr-32 py-5 text-lg bg-white/90 border-2 border-transparent rounded-[20px] shadow-[var(--shadow-soft)] focus:outline-none focus:border-[var(--coral)] focus:shadow-[0_0_0_4px_rgba(255,127,107,0.2)] transition-all"
+            className="w-full pl-14 pr-32 py-5 text-lg bg-[var(--card-bg)]/90 border-2 border-transparent rounded-[20px] shadow-[var(--shadow-soft)] focus:outline-none focus:border-[var(--coral)] focus:shadow-[0_0_0_4px_rgba(255,127,107,0.2)] transition-all text-[var(--text-primary)]"
           />
           <button
             onClick={() => query.trim() && handleSelectStock(searchResults[0]?.symbol || query.trim().toUpperCase())}
@@ -269,7 +269,7 @@ export default function CompanySearch() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute z-20 w-full mt-2 bg-white rounded-[16px] shadow-[var(--shadow-medium)] overflow-hidden"
+              className="absolute z-20 w-full mt-2 bg-[var(--card-bg-solid)] rounded-[16px] shadow-[var(--shadow-medium)] overflow-hidden"
             >
               {isSearching && searchResults.length === 0 ? (
                 <div className="px-5 py-4 text-[var(--text-muted)] text-center">
@@ -312,7 +312,7 @@ export default function CompanySearch() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 + i * 0.05 }}
             onClick={() => handleSelectStock(s.symbol)}
-            className="px-4 py-2 bg-white/70 hover:bg-white rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] shadow-sm hover:shadow-md transition-all hover:scale-105 flex items-center gap-2"
+            className="px-4 py-2 bg-[var(--card-bg)]/70 hover:bg-[var(--card-bg)] rounded-full text-sm font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] shadow-sm hover:shadow-md transition-all hover:scale-105 flex items-center gap-2"
           >
             <span>{s.emoji}</span>
             <span>{s.name}</span>
@@ -349,7 +349,7 @@ export default function CompanySearch() {
             transition={{ type: "spring", stiffness: 100 }}
           >
             {/* Stock Header Card */}
-            <div className="bg-white/70 backdrop-blur-sm rounded-[28px] p-8 shadow-[var(--shadow-soft)] mb-6">
+            <div className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[28px] p-8 shadow-[var(--shadow-soft)] mb-6">
               <div className="flex flex-col lg:flex-row gap-6">
                 {/* Left: Info */}
                 <div className="flex-1">
@@ -358,7 +358,7 @@ export default function CompanySearch() {
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
-                      className="w-16 h-16 bg-gradient-to-br from-[var(--cream)] to-white rounded-[14px] flex items-center justify-center text-4xl shadow-inner"
+                      className="w-16 h-16 bg-gradient-to-br from-[var(--cream)] to-[var(--card-bg-solid)] rounded-[14px] flex items-center justify-center text-4xl shadow-inner"
                     >
                       {stockData.emoji}
                     </motion.div>
@@ -433,7 +433,7 @@ export default function CompanySearch() {
 
                 {/* Right: Chart */}
                 <div className="lg:w-[400px]">
-                  <div className="bg-white/50 rounded-[20px] p-4">
+                  <div className="bg-[var(--card-bg)]/50 rounded-[20px] p-4">
                     <h4 className="font-display font-semibold text-[var(--text-primary)] mb-3">
                       Price Chart
                     </h4>
@@ -459,7 +459,7 @@ export default function CompanySearch() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="bg-white/60 backdrop-blur-sm rounded-[20px] p-5 border border-white/50"
+                className="bg-[var(--card-bg)]/60 backdrop-blur-sm rounded-[20px] p-5 border border-[var(--cream-dark)]"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">🏦</span>
@@ -481,7 +481,7 @@ export default function CompanySearch() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="bg-white/60 backdrop-blur-sm rounded-[20px] p-5 border border-white/50"
+                className="bg-[var(--card-bg)]/60 backdrop-blur-sm rounded-[20px] p-5 border border-[var(--cream-dark)]"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">📊</span>
@@ -502,7 +502,7 @@ export default function CompanySearch() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="bg-white/60 backdrop-blur-sm rounded-[20px] p-5 border border-white/50"
+                className="bg-[var(--card-bg)]/60 backdrop-blur-sm rounded-[20px] p-5 border border-[var(--cream-dark)]"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">🔄</span>
@@ -524,7 +524,7 @@ export default function CompanySearch() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="bg-white/60 backdrop-blur-sm rounded-[20px] p-5 border border-white/50"
+                className="bg-[var(--card-bg)]/60 backdrop-blur-sm rounded-[20px] p-5 border border-[var(--cream-dark)]"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">📅</span>
@@ -545,7 +545,7 @@ export default function CompanySearch() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="bg-white/60 backdrop-blur-sm rounded-[20px] p-5 border border-white/50"
+                className="bg-[var(--card-bg)]/60 backdrop-blur-sm rounded-[20px] p-5 border border-[var(--cream-dark)]"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">🌙</span>
@@ -567,7 +567,7 @@ export default function CompanySearch() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="bg-white/60 backdrop-blur-sm rounded-[20px] p-5 border border-white/50"
+                  className="bg-[var(--card-bg)]/60 backdrop-blur-sm rounded-[20px] p-5 border border-[var(--cream-dark)]"
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-2xl">🎯</span>

@@ -111,7 +111,7 @@ export default function Hero() {
             href="#learn"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-8 py-4 bg-white/70 backdrop-blur-sm text-[var(--text-primary)] font-display font-semibold text-lg rounded-full shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-all flex items-center gap-2"
+            className="px-8 py-4 bg-[var(--card-bg)] backdrop-blur-sm text-[var(--text-primary)] font-display font-semibold text-lg rounded-full shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-all flex items-center gap-2"
           >
             <span>🔍</span>
             <span>Search Companies</span>

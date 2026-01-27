@@ -76,7 +76,7 @@ export default function TransactionHistory({
         {[1, 2, 3, 4, 5].map((i) => (
           <div
             key={i}
-            className="bg-white/70 backdrop-blur-sm rounded-[20px] p-5 shadow-[var(--shadow-soft)]"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[20px] p-5 shadow-[var(--shadow-soft)]"
           >
             <div className="animate-pulse flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -102,7 +102,7 @@ export default function TransactionHistory({
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+        className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
       >
         <motion.div
           animate={{ rotate: [0, 10, -10, 0] }}
@@ -133,7 +133,7 @@ export default function TransactionHistory({
             variants={cardVariants}
             initial="hidden"
             animate="visible"
-            className="bg-white/70 backdrop-blur-sm rounded-[20px] p-5 shadow-[var(--shadow-soft)] hover:shadow-md transition-shadow"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[20px] p-5 shadow-[var(--shadow-soft)] hover:shadow-md transition-shadow"
           >
             <div className="flex items-center justify-between">
               {/* Left - Type badge and company */}

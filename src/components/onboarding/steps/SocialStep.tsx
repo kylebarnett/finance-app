@@ -61,7 +61,7 @@ export default function SocialStep() {
             transition={{ delay: 0.3 + i * 0.15 }}
             className={`flex items-center gap-4 p-4 bg-gradient-to-r ${feature.color} rounded-[16px] text-left`}
           >
-            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
+            <div className="w-12 h-12 bg-[var(--card-bg-solid)] rounded-xl flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
               {feature.emoji}
             </div>
             <div>

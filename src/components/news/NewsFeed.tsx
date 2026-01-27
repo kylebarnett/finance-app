@@ -110,7 +110,7 @@ export default function NewsFeed({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="flex-shrink-0 w-72 h-48 bg-white/50 rounded-[20px] animate-pulse"
+            className="flex-shrink-0 w-72 h-48 bg-[var(--card-bg)]/50 rounded-[20px] animate-pulse"
           />
         ))}
       </div>
@@ -175,7 +175,7 @@ export default function NewsFeed({
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={goToPrevious}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors -ml-2"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-[var(--card-bg-solid)] rounded-full shadow-lg flex items-center justify-center text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors -ml-2"
               aria-label="Previous news"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -191,7 +191,7 @@ export default function NewsFeed({
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={goToNext}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors -mr-2"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-[var(--card-bg-solid)] rounded-full shadow-lg flex items-center justify-center text-[var(--text-secondary)] hover:bg-[var(--cream)] transition-colors -mr-2"
               aria-label="Next news"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

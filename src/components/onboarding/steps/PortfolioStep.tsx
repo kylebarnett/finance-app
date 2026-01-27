@@ -37,7 +37,7 @@ export default function PortfolioStep() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="max-w-sm mx-auto bg-white/70 rounded-[20px] p-5 shadow-sm mb-6"
+        className="max-w-sm mx-auto bg-[var(--card-bg)]/70 rounded-[20px] p-5 shadow-sm mb-6"
       >
         <div className="text-left mb-4">
           <p className="text-sm text-[var(--text-muted)]">Total Portfolio Value</p>

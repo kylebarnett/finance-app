@@ -51,7 +51,7 @@ export default function PrivacyToggle({ isPublic, displayName, onToggle }: Priva
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white/70 backdrop-blur-sm rounded-[20px] p-6 shadow-[var(--shadow-soft)]"
+      className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[20px] p-6 shadow-[var(--shadow-soft)]"
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
@@ -163,7 +163,7 @@ export default function PrivacyToggle({ isPublic, displayName, onToggle }: Priva
             <motion.div
               animate={{ x: isPublic ? 24 : 0 }}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center text-xs"
+              className="w-6 h-6 bg-[var(--card-bg-solid)] rounded-full shadow-md flex items-center justify-center text-xs"
             >
               {isLoading ? "⏳" : isPublic ? "✓" : ""}
             </motion.div>

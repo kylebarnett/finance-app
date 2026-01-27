@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createChart, ColorType, IChartApi, AreaSeries, AreaData, Time } from "lightweight-charts";
+import { useTheme } from "@/components/ThemeProvider";
 
 interface ChartDataPoint {
   time: number;
@@ -45,23 +46,34 @@ export default function StockChart({
   const [range, setRange] = useState(initialRange);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
 
-    const lineColor = isPositive ? "#6BCB77" : "#FF8787";
-    const areaTopColor = isPositive ? "rgba(107, 203, 119, 0.4)" : "rgba(255, 135, 135, 0.4)";
-    const areaBottomColor = isPositive ? "rgba(107, 203, 119, 0.0)" : "rgba(255, 135, 135, 0.0)";
+    // Theme-aware colors
+    const lineColor = isPositive
+      ? (isDark ? "#7BD88A" : "#6BCB77")
+      : (isDark ? "#FF9595" : "#FF8787");
+    const areaTopColor = isPositive
+      ? (isDark ? "rgba(123, 216, 138, 0.3)" : "rgba(107, 203, 119, 0.4)")
+      : (isDark ? "rgba(255, 149, 149, 0.3)" : "rgba(255, 135, 135, 0.4)");
+    const areaBottomColor = isPositive
+      ? "rgba(107, 203, 119, 0.0)"
+      : "rgba(255, 135, 135, 0.0)";
+    const textColor = isDark ? "#B0B0B8" : "#636E72";
+    const gridColor = isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(245, 237, 227, 0.5)";
 
     const chart = createChart(chartContainerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: "transparent" },
-        textColor: "#636E72",
+        textColor: textColor,
         fontFamily: "'DM Sans', sans-serif",
       },
       grid: {
-        vertLines: { color: "rgba(245, 237, 227, 0.5)" },
-        horzLines: { color: "rgba(245, 237, 227, 0.5)" },
+        vertLines: { color: gridColor },
+        horzLines: { color: gridColor },
       },
       width: chartContainerRef.current.clientWidth,
       height: compact ? 120 : height,
@@ -111,7 +123,7 @@ export default function StockChart({
       window.removeEventListener("resize", handleResize);
       chart.remove();
     };
-  }, [isPositive, height, compact, range]);
+  }, [isPositive, height, compact, range, isDark]);
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -185,7 +197,7 @@ export default function StockChart({
                   px-3 py-1.5 text-xs font-medium rounded-full transition-all
                   ${range === r.value
                     ? "bg-[var(--coral)] text-white"
-                    : "bg-white/50 text-[var(--text-secondary)] hover:bg-white/80"
+                    : "bg-[var(--cream)] text-[var(--text-secondary)] hover:bg-[var(--cream-dark)]"
                   }
                 `}
               >
@@ -198,11 +210,11 @@ export default function StockChart({
 
       <div
         ref={chartContainerRef}
-        className={`relative rounded-xl overflow-hidden ${compact ? "" : "bg-white/30"}`}
+        className={`relative rounded-xl overflow-hidden ${compact ? "" : "bg-[var(--card-bg)]"}`}
       />
 
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-xl">
+        <div className="absolute inset-0 flex items-center justify-center bg-[var(--card-bg)] rounded-xl">
           <div className="flex items-center gap-2 text-[var(--text-secondary)]">
             <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
               <circle
@@ -226,7 +238,7 @@ export default function StockChart({
       )}
 
       {error && !isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-xl">
+        <div className="absolute inset-0 flex items-center justify-center bg-[var(--card-bg)] rounded-xl">
           <div className="text-center text-[var(--text-muted)] text-sm">
             <span className="block text-2xl mb-2">📊</span>
             <span>Chart unavailable</span>

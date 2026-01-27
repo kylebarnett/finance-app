@@ -48,7 +48,7 @@ export default function SearchStep() {
       >
         <div className="relative">
           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
-          <div className="w-full pl-12 pr-4 py-4 bg-white/80 border-2 border-[var(--cream-dark)] rounded-[16px] text-left text-[var(--text-muted)]">
+          <div className="w-full pl-12 pr-4 py-4 bg-[var(--card-bg)]/80 border-2 border-[var(--cream-dark)] rounded-[16px] text-left text-[var(--text-muted)]">
             Search any company...
           </div>
         </div>
@@ -69,7 +69,7 @@ export default function SearchStep() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 + i * 0.1 }}
-              className="px-4 py-2 bg-white/70 rounded-full flex items-center gap-2 shadow-sm"
+              className="px-4 py-2 bg-[var(--card-bg)]/70 rounded-full flex items-center gap-2 shadow-sm"
             >
               <span className="text-lg">{stock.emoji}</span>
               <span className="font-medium text-[var(--text-primary)]">{stock.name}</span>

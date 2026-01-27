@@ -10,6 +10,7 @@ interface StockDetailModalProps {
   onClose: () => void;
   symbol: string;
   onBuy: () => void;
+  actionLabel?: string;
 }
 
 interface StockData {
@@ -61,7 +62,7 @@ function formatVolume(num: number): string {
   return num.toString();
 }
 
-export default function StockDetailModal({ isOpen, onClose, symbol, onBuy }: StockDetailModalProps) {
+export default function StockDetailModal({ isOpen, onClose, symbol, onBuy, actionLabel }: StockDetailModalProps) {
   const [stockData, setStockData] = useState<StockData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -109,7 +110,7 @@ export default function StockDetailModal({ isOpen, onClose, symbol, onBuy }: Sto
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[90vh] bg-white rounded-[24px] shadow-2xl z-50 overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[90vh] bg-[var(--card-bg-solid)] rounded-[24px] shadow-2xl z-50 overflow-hidden"
           >
             {/* Close button */}
             <button
@@ -273,14 +274,14 @@ export default function StockDetailModal({ isOpen, onClose, symbol, onBuy }: Sto
                     )}
                   </div>
 
-                  {/* Buy Button */}
+                  {/* Action Button */}
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={onBuy}
                     className="w-full py-4 bg-gradient-to-r from-[var(--teal)] to-[var(--teal-dark)] text-white font-display font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all"
                   >
-                    Buy {stockData.symbol}
+                    {actionLabel || `Buy ${stockData.symbol}`}
                   </motion.button>
                 </>
               )}

@@ -36,7 +36,7 @@ export default function GroupLeaderboard({ entries, currentUserId }: GroupLeader
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white/70 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] text-center"
+        className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] text-center"
       >
         <motion.div
           animate={{ scale: [1, 1.1, 1] }}
@@ -69,7 +69,7 @@ export default function GroupLeaderboard({ entries, currentUserId }: GroupLeader
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: index * 0.05 }}
             whileHover={{ scale: 1.01, x: 4 }}
-            className={`bg-white/70 backdrop-blur-sm rounded-[16px] p-4 shadow-[var(--shadow-soft)] ${
+            className={`bg-[var(--card-bg)] backdrop-blur-sm rounded-[16px] p-4 shadow-[var(--shadow-soft)] ${
               isCurrentUser ? "ring-2 ring-[var(--teal)] ring-offset-2" : ""
             }`}
           >

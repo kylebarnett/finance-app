@@ -65,7 +65,7 @@ export default function NotFound() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-12 p-6 bg-white/50 rounded-2xl"
+          className="mt-12 p-6 bg-[var(--card-bg)]/50 rounded-2xl"
         >
           <p className="text-sm font-semibold text-[var(--text-primary)] mb-3">
             While you&apos;re here, you could:

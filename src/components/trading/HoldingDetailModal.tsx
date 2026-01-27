@@ -130,7 +130,7 @@ export default function HoldingDetailModal({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[90vh] bg-white rounded-[24px] shadow-2xl z-50 overflow-hidden"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl max-h-[90vh] bg-[var(--card-bg-solid)] rounded-[24px] shadow-2xl z-50 overflow-hidden"
           >
             {/* Close button */}
             <button
@@ -183,8 +183,8 @@ export default function HoldingDetailModal({
                 transition={{ delay: 0.1 }}
                 className={`p-5 rounded-[20px] mb-6 ${
                   isPositive
-                    ? "bg-gradient-to-br from-[var(--up-green-bg)] to-white"
-                    : "bg-gradient-to-br from-[var(--down-red-bg)] to-white"
+                    ? "bg-gradient-to-br from-[var(--up-green-bg)] to-[var(--card-bg-solid)]"
+                    : "bg-gradient-to-br from-[var(--down-red-bg)] to-[var(--card-bg-solid)]"
                 }`}
               >
                 <h3 className="font-display font-semibold text-[var(--text-primary)] mb-4 flex items-center gap-2">
@@ -240,7 +240,7 @@ export default function HoldingDetailModal({
                       {holding.gainLossPercent.toFixed(1)}%
                     </span>
                   </div>
-                  <div className="h-3 bg-white/80 rounded-full overflow-hidden">
+                  <div className="h-3 bg-[var(--cream)]/80 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{

@@ -56,7 +56,7 @@ export default function HoldingsList({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-soft)]"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-soft)]"
           >
             <div className="animate-pulse flex items-start justify-between">
               <div className="flex items-center gap-4">
@@ -82,7 +82,7 @@ export default function HoldingsList({
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+        className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
       >
         <motion.div
           animate={{ y: [0, -10, 0] }}
@@ -115,7 +115,7 @@ export default function HoldingsList({
             animate="visible"
             whileHover={{ scale: 1.01 }}
             onClick={() => onSelect?.(holding)}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-soft)] border border-transparent hover:border-[var(--cream-dark)] transition-all cursor-pointer"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-soft)] border border-transparent hover:border-[var(--cream-dark)] transition-all cursor-pointer"
           >
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               {/* Left side - Company info */}

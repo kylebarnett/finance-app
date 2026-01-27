@@ -109,7 +109,7 @@ export default function UnlockModal({ achievement, onClose }: UnlockModalProps) 
           exit={{ scale: 0, rotate: 10 }}
           transition={{ type: "spring", stiffness: 200, damping: 15 }}
           onClick={(e) => e.stopPropagation()}
-          className="bg-white rounded-[32px] shadow-2xl p-8 max-w-sm w-full text-center relative overflow-hidden"
+          className="bg-[var(--card-bg-solid)] rounded-[32px] shadow-2xl p-8 max-w-sm w-full text-center relative overflow-hidden"
         >
           {/* Background glow */}
           <div

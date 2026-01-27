@@ -121,7 +121,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
           >
             <p className="text-[var(--text-secondary)]">Please log in to view this group.</p>
             <Link href="/auth/login">
@@ -150,7 +150,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
             <div className="h-8 bg-[var(--cream)] rounded w-48 mb-4"></div>
             <div className="h-4 bg-[var(--cream)] rounded w-32 mb-8"></div>
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white/70 rounded-[20px] p-4 mb-4">
+              <div key={i} className="bg-[var(--card-bg)] rounded-[20px] p-4 mb-4">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-[var(--cream)] rounded-xl"></div>
                   <div className="flex-1">
@@ -176,7 +176,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
           >
             <div className="text-6xl mb-4">😕</div>
             <h2 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-2">
@@ -223,7 +223,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/70 backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-soft)] mb-8"
+          className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-6 shadow-[var(--shadow-soft)] mb-8"
         >
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div className="flex items-center gap-4">
@@ -335,7 +335,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-[24px] shadow-2xl z-50 p-6"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-[var(--card-bg-solid)] rounded-[24px] shadow-2xl z-50 p-6"
           >
             <h3 className="font-display text-xl font-bold text-[var(--text-primary)] mb-2">
               Leave Group?
@@ -379,7 +379,7 @@ export default function GroupPage({ params }: { params: Promise<{ groupId: strin
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-white rounded-[24px] shadow-2xl z-50 p-6"
+            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm bg-[var(--card-bg-solid)] rounded-[24px] shadow-2xl z-50 p-6"
           >
             <h3 className="font-display text-xl font-bold text-[var(--text-primary)] mb-2">
               Delete Group?

@@ -44,7 +44,7 @@ export default function TradeStep() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 + i * 0.15 }}
-            className="flex items-center gap-4 p-4 bg-white/70 rounded-[16px] text-left"
+            className="flex items-center gap-4 p-4 bg-[var(--card-bg)]/70 rounded-[16px] text-left"
           >
             <div className="w-12 h-12 bg-[var(--cream)] rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
               {step.emoji}

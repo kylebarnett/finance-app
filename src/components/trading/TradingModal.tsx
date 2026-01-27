@@ -148,7 +148,7 @@ export default function TradingModal({
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
           >
-            <div className="w-full max-w-md bg-white rounded-[24px] shadow-2xl overflow-hidden">
+            <div className="w-full max-w-md bg-[var(--card-bg-solid)] rounded-[24px] shadow-2xl overflow-hidden">
               {/* Success State */}
               {successMessage ? (
                 <motion.div
@@ -220,7 +220,7 @@ export default function TradingModal({
                             onClick={() => setInputMode("shares")}
                             className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-all ${
                               inputMode === "shares"
-                                ? "bg-white text-[var(--text-primary)] shadow-sm"
+                                ? "bg-[var(--card-bg-solid)] text-[var(--text-primary)] shadow-sm"
                                 : "text-[var(--text-muted)]"
                             }`}
                           >
@@ -230,7 +230,7 @@ export default function TradingModal({
                             onClick={() => setInputMode("dollars")}
                             className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-all ${
                               inputMode === "dollars"
-                                ? "bg-white text-[var(--text-primary)] shadow-sm"
+                                ? "bg-[var(--card-bg-solid)] text-[var(--text-primary)] shadow-sm"
                                 : "text-[var(--text-muted)]"
                             }`}
                           >

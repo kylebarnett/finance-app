@@ -45,7 +45,7 @@ export default function PrivacySettings({
   };
 
   return (
-    <div className="bg-white rounded-[20px] p-6 shadow-sm">
+    <div className="bg-[var(--card-bg-solid)] rounded-[20px] p-6 shadow-[var(--shadow-soft)]">
       <h3 className="font-display text-lg font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
         <span>🔒</span> Privacy Settings
       </h3>
@@ -70,7 +70,7 @@ export default function PrivacySettings({
           <motion.div
             animate={{ x: isPublic ? 24 : 0 }}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center text-xs"
+            className="w-6 h-6 bg-[var(--card-bg-solid)] rounded-full shadow-md flex items-center justify-center text-xs"
           >
             {isPublic ? "✓" : ""}
           </motion.div>

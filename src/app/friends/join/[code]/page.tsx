@@ -90,7 +90,7 @@ export default function JoinGroupPage({ params }: { params: Promise<{ code: stri
       <main className="min-h-screen">
         <Header />
         <section className="w-full max-w-md mx-auto px-4 py-20">
-          <div className="bg-white/70 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)]">
+          <div className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)]">
             <div className="animate-pulse text-center">
               <div className="w-20 h-20 bg-[var(--cream)] rounded-xl mx-auto mb-4"></div>
               <div className="h-6 bg-[var(--cream)] rounded w-48 mx-auto mb-2"></div>
@@ -112,7 +112,7 @@ export default function JoinGroupPage({ params }: { params: Promise<{ code: stri
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] text-center"
           >
             <div className="text-6xl mb-4">😕</div>
             <h1 className="font-display text-2xl font-bold text-[var(--text-primary)] mb-2">
@@ -144,7 +144,7 @@ export default function JoinGroupPage({ params }: { params: Promise<{ code: stri
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)] text-center"
           >
             <motion.div
               initial={{ scale: 0 }}
@@ -176,7 +176,7 @@ export default function JoinGroupPage({ params }: { params: Promise<{ code: stri
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white/70 backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)]"
+          className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-8 shadow-[var(--shadow-soft)]"
         >
           {/* Invite header */}
           <div className="text-center mb-6">

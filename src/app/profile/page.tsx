@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Header from "@/components/Header";
@@ -32,6 +33,7 @@ interface ProfileData {
 export default function ProfilePage() {
   const { user, isLoading: authLoading, signOut, refreshProfile } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const router = useRouter();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -157,7 +159,7 @@ export default function ProfilePage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white/70 backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
+            className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[24px] p-12 shadow-[var(--shadow-soft)] text-center"
           >
             <motion.div
               animate={{ y: [0, -10, 0] }}
@@ -252,7 +254,7 @@ export default function ProfilePage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-[24px] p-6 shadow-sm"
+              className="bg-[var(--card-bg-solid)] rounded-[24px] p-6 shadow-[var(--shadow-soft)]"
             >
               <div className="flex items-center gap-5">
                 {/* Avatar */}
@@ -311,7 +313,7 @@ export default function ProfilePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
-              className="bg-white rounded-[20px] p-4 shadow-sm"
+              className="bg-[var(--card-bg-solid)] rounded-[20px] p-4 shadow-[var(--shadow-soft)]"
             >
               <h3 className="font-display text-lg font-bold text-[var(--text-primary)] mb-3 flex items-center gap-2 px-2">
                 <span>🔗</span> Quick Links
@@ -374,7 +376,7 @@ export default function ProfilePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.25 }}
-              className="bg-white rounded-[20px] p-6 shadow-sm"
+              className="bg-[var(--card-bg-solid)] rounded-[20px] p-6 shadow-[var(--shadow-soft)]"
             >
               <h3 className="font-display text-lg font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
                 <span>⚙️</span> Account
@@ -402,7 +404,7 @@ export default function ProfilePage() {
                     <motion.div
                       animate={{ x: theme === "dark" ? 24 : 0 }}
                       transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                      className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center text-xs"
+                      className="w-6 h-6 bg-[var(--card-bg-solid)] rounded-full shadow-md flex items-center justify-center text-xs"
                     >
                       {theme === "dark" ? "🌙" : "☀️"}
                     </motion.div>
@@ -426,7 +428,8 @@ export default function ProfilePage() {
                   whileHover={{ scale: 1.01 }}
                   onClick={async () => {
                     await signOut();
-                    window.location.href = "/";
+                    router.push("/");
+                    router.refresh();
                   }}
                   className="w-full p-4 bg-[var(--down-red-bg)] rounded-xl hover:bg-[var(--down-red)]/20 transition-colors flex items-center gap-3 text-left"
                 >
@@ -444,7 +447,7 @@ export default function ProfilePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white rounded-[20px] p-6 shadow-sm border-2 border-[var(--down-red)]/20"
+              className="bg-[var(--card-bg-solid)] rounded-[20px] p-6 shadow-[var(--shadow-soft)] border-2 border-[var(--down-red)]/20"
             >
               <h3 className="font-display text-lg font-bold text-[var(--down-red)] mb-4 flex items-center gap-2">
                 <span>⚠️</span> Danger Zone
@@ -502,7 +505,7 @@ export default function ProfilePage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-[24px] shadow-2xl z-50 overflow-hidden"
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-[var(--card-bg-solid)] rounded-[24px] shadow-2xl z-50 overflow-hidden"
             >
               <div className="p-6 border-b border-[var(--cream-dark)] bg-[var(--down-red)]/10">
                 <div className="flex items-center gap-3">

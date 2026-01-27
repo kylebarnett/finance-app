@@ -57,7 +57,7 @@ export default function WatchlistCard({
       exit={{ opacity: 0, scale: 0.9, x: -100 }}
       whileHover={{ scale: 1.02 }}
       onClick={onViewDetails}
-      className="bg-white/70 backdrop-blur-sm rounded-[20px] p-5 shadow-[var(--shadow-soft)] border border-transparent hover:border-[var(--cream-dark)] transition-all cursor-pointer"
+      className="bg-[var(--card-bg)] backdrop-blur-sm rounded-[20px] p-5 shadow-[var(--shadow-soft)] border border-transparent hover:border-[var(--cream-dark)] transition-all cursor-pointer"
     >
       <div className="flex items-center justify-between gap-4">
         {/* Left - Company info */}

@@ -113,7 +113,7 @@ export default function Glossary() {
               transition={{ delay: i * 0.05 }}
               onClick={() => setExpandedTerm(isExpanded ? null : term.word)}
               className={`
-                cursor-pointer bg-white/70 backdrop-blur-sm rounded-[20px] p-5
+                cursor-pointer bg-[var(--card-bg)] backdrop-blur-sm rounded-[20px] p-5
                 border-2 transition-all duration-300
                 ${isExpanded
                   ? `border-[var(--${term.color})] shadow-lg`
@@ -186,7 +186,7 @@ export default function Glossary() {
         transition={{ delay: 0.5 }}
         className="mt-12 text-center"
       >
-        <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/50 rounded-full text-sm text-[var(--text-secondary)]">
+        <div className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--card-bg)]/50 rounded-full text-sm text-[var(--text-secondary)]">
           <span className="text-lg">🧠</span>
           <span>Learning these words helps you understand money better!</span>
         </div>

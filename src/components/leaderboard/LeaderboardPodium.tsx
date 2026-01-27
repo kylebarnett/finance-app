@@ -75,7 +75,7 @@ export default function LeaderboardPodium({ entries }: LeaderboardPodiumProps) {
               {/* Winner info card */}
               <motion.div
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="bg-white/80 backdrop-blur-sm rounded-2xl p-3 md:p-4 shadow-[var(--shadow-soft)] mb-2 w-28 md:w-36"
+                className="bg-[var(--card-bg)]/80 backdrop-blur-sm rounded-2xl p-3 md:p-4 shadow-[var(--shadow-soft)] mb-2 w-28 md:w-36"
               >
                 {/* Trophy and Avatar */}
                 <div className="flex items-center justify-center gap-1 mb-2">
